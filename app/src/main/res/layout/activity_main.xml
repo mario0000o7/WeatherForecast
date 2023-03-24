@@ -2,6 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity">
@@ -17,14 +18,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/favourites"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar2"
-        tools:visibility="invisible" />
-
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/widok1"
         android:layout_width="0dp"
@@ -38,7 +31,20 @@
 
     </androidx.viewpager2.widget.ViewPager2>
 
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/favourites"
+        android:layout_width="wrap_content"
+        android:layout_height="200dp"
+        android:background="#0F2027"
+        android:visibility="invisible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar2"
+        tools:itemCount="3">
+
+    </androidx.recyclerview.widget.RecyclerView>
+
     <LinearLayout
+        android:id="@+id/linearLayout"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:orientation="horizontal"
@@ -51,27 +57,35 @@
             android:id="@+id/textView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginStart="10dp"
-            android:layout_weight="1"
+            android:layout_weight="6"
             android:autoSizeTextType="uniform"
             android:text="Pogoda"
             android:textColor="@color/white" />
 
-        <ImageView
-            android:id="@+id/imageView7"
+        <EditText
+            android:id="@+id/search"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="5"
-            android:tint="@color/white"
-            app:srcCompat="?android:attr/actionModeWebSearchDrawable" />
+            android:layout_weight="6"
+            android:hint="Miejscowość"
+            android:imeActionLabel="Done"
+            android:imeOptions="actionDone"
+
+
+            android:inputType="text"
+            android:maxLines="1"
+            app:endIconMode="clear_text">
+
+        </EditText>
 
         <ImageView
             android:id="@+id/listfav"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="5"
+            android:layout_weight="10"
             android:tint="@color/white"
             app:srcCompat="@drawable/menu_icon" />
+
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,7 +1,11 @@
 package com.example.weatherforecast;
 
+import static android.content.Context.MODE_PRIVATE;
+
 import androidx.lifecycle.ViewModelProvider;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -11,13 +15,45 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 public class Fragment1 extends Fragment {
 
+
     private Fragment1ViewModel mViewModel;
 
-    public static Fragment1 newInstance() {
-        return new Fragment1();
+
+
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        mViewModel = new ViewModelProvider(this).get(Fragment1ViewModel.class);
+        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("currentCity", MODE_PRIVATE);
+        mViewModel.city = sharedPreferences.getString("city", "brak");
+        mViewModel.temp = Double.valueOf(sharedPreferences.getFloat("temp", 0));
+        mViewModel.pressure = Double.valueOf(sharedPreferences.getFloat("pressure", 0));
+        mViewModel.lon = Double.valueOf(sharedPreferences.getFloat("lon", 0));
+        mViewModel.lat = Double.valueOf(sharedPreferences.getFloat("lat", 0));
+        mViewModel.description = sharedPreferences.getString("description", "brak");
+        mViewModel.actualTime = sharedPreferences.getString("actualTime", "brak");
+        System.out.println("onCreate1");
+    }
+    void refresh(){
+        TextView cityName = getView().findViewById(R.id.cityname);
+        cityName.setText(mViewModel.city);
+        TextView tempv = getView().findViewById(R.id.temperature);
+        tempv.setText(mViewModel.temp.toString());
+        TextView pressurev = getView().findViewById(R.id.preassure);
+        pressurev.setText(mViewModel.pressure.toString());
+        TextView lonv = getView().findViewById(R.id.longitudeicon);
+        lonv.setText(mViewModel.lon.toString());
+        TextView latv = getView().findViewById(R.id.latitudeicon);
+        latv.setText(mViewModel.lat.toString());
+        TextView descriptionv = getView().findViewById(R.id.description);
+        descriptionv.setText(mViewModel.description);
+        TextView actualTimev = getView().findViewById(R.id.time);
+        actualTimev.setText(mViewModel.actualTime);
     }
 
     @Override
@@ -25,12 +61,64 @@ public class Fragment1 extends Fragment {
                              @Nullable Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_fragment1, container, false);
     }
+    public void setAll(String city, Double temp, Double pressure, Double lon, Double lat, String description, String actualTime){
+        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("currentCity", MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString("city", city);
+        editor.putFloat("temp", temp.floatValue());
+        editor.putFloat("pressure", pressure.floatValue());
+        editor.putFloat("lon", lon.floatValue());
+        editor.putFloat("lat", lat.floatValue());
+        editor.putString("description", description);
+        editor.putString("actualTime", actualTime);
+        editor.apply();
+
+        mViewModel.city = city;
+        mViewModel.temp = temp;
+        mViewModel.pressure = pressure;
+        mViewModel.lon = lon;
+        mViewModel.lat = lat;
+        mViewModel.description = description;
+        mViewModel.actualTime = actualTime;
+
+
+
+        System.out.println("onActivityCreated1");
+
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        System.out.println("onDestroy1");
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        System.out.println("onDestroyView1");
+    }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        mViewModel = new ViewModelProvider(this).get(Fragment1ViewModel.class);
-        // TODO: Use the ViewModel
+        refresh();
+
+
+
+
+        System.out.println("onActivityCreated");
+
+
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        System.out.println("onResume1");
+        refresh();
+
+
+
+    }
 }

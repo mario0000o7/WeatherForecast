@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 public class Ulubione extends Fragment {
 
@@ -30,6 +31,8 @@ public class Ulubione extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         mViewModel = new ViewModelProvider(this).get(UlubioneViewModel.class);
+
+
         // TODO: Use the ViewModel
     }
 
