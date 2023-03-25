@@ -2,6 +2,7 @@ package com.example.weatherforecast;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
+import androidx.lifecycle.Observer;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 
 import java.util.ArrayList;
@@ -37,5 +38,8 @@ public class MyAdapter extends FragmentStateAdapter {
     public int getItemCount() {
         return 3;
     }
+
+
+
 }
 

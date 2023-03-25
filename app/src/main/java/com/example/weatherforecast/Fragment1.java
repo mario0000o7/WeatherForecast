@@ -2,6 +2,7 @@ package com.example.weatherforecast;
 
 import static android.content.Context.MODE_PRIVATE;
 
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.content.Context;
@@ -17,18 +18,24 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-public class Fragment1 extends Fragment {
+import java.util.Observable;
+
+public class Fragment1 extends Fragment implements MyViewModelObserver {
 
 
     private Fragment1ViewModel mViewModel;
 
 
-
+    public Fragment1ViewModel getmViewModel() {
+        return mViewModel;
+    }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mViewModel = new ViewModelProvider(this).get(Fragment1ViewModel.class);
+        mViewModel = new ViewModelProvider(getActivity()).get(Fragment1ViewModel.class);
+        mViewModel.addObserver(this);
+
         SharedPreferences sharedPreferences = getActivity().getSharedPreferences("currentCity", MODE_PRIVATE);
         mViewModel.city = sharedPreferences.getString("city", "brak");
         mViewModel.temp = Double.valueOf(sharedPreferences.getFloat("temp", 0));
@@ -40,6 +47,7 @@ public class Fragment1 extends Fragment {
         System.out.println("onCreate1");
     }
     void refresh(){
+        if (getView() == null) return;
         TextView cityName = getView().findViewById(R.id.cityname);
         cityName.setText(mViewModel.city);
         TextView tempv = getView().findViewById(R.id.temperature);
@@ -61,31 +69,7 @@ public class Fragment1 extends Fragment {
                              @Nullable Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_fragment1, container, false);
     }
-    public void setAll(String city, Double temp, Double pressure, Double lon, Double lat, String description, String actualTime){
-        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("currentCity", MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putString("city", city);
-        editor.putFloat("temp", temp.floatValue());
-        editor.putFloat("pressure", pressure.floatValue());
-        editor.putFloat("lon", lon.floatValue());
-        editor.putFloat("lat", lat.floatValue());
-        editor.putString("description", description);
-        editor.putString("actualTime", actualTime);
-        editor.apply();
 
-        mViewModel.city = city;
-        mViewModel.temp = temp;
-        mViewModel.pressure = pressure;
-        mViewModel.lon = lon;
-        mViewModel.lat = lat;
-        mViewModel.description = description;
-        mViewModel.actualTime = actualTime;
-
-
-
-        System.out.println("onActivityCreated1");
-
-    }
 
     @Override
     public void onDestroy() {
@@ -114,11 +98,86 @@ public class Fragment1 extends Fragment {
 
     @Override
     public void onResume() {
+
         super.onResume();
+        refresh();
         System.out.println("onResume1");
+
+
+
+
+    }
+
+    @Override
+    public void onCityChanged(String city) {
+        mViewModel.city = city;
+        refresh();
+    }
+
+    @Override
+    public void onTempChanged(Double temp) {
+        mViewModel.temp = temp;
+        refresh();
+
+    }
+
+    @Override
+    public void onPressureChanged(Double pressure) {
+        mViewModel.pressure = pressure;
         refresh();
 
 
+    }
 
+    @Override
+    public void onLonChanged(Double lon) {
+        mViewModel.lon = lon;
+        refresh();
+
+
+    }
+
+    @Override
+    public void onLatChanged(Double lat) {
+        mViewModel.lat = lat;
+        refresh();
+
+    }
+
+    @Override
+    public void onDescriptionChanged(String description) {
+        mViewModel.description = description;
+        refresh();
+
+    }
+
+    @Override
+    public void onActualTimeChanged(String actualTime) {
+        mViewModel.actualTime = actualTime;
+        refresh();
+
+    }
+
+    @Override
+    public void onAllChanged(String city, Double temp, Double pressure, Double lon, Double lat, String description, String actualTime) {
+        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("currentCity", MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString("city", city);
+        editor.putFloat("temp", temp.floatValue());
+        editor.putFloat("pressure", pressure.floatValue());
+        editor.putFloat("lon", lon.floatValue());
+        editor.putFloat("lat", lat.floatValue());
+        editor.putString("description", description);
+        editor.putString("actualTime", actualTime);
+        editor.apply();
+
+        mViewModel.city = city;
+        mViewModel.temp = temp;
+        mViewModel.pressure = pressure;
+        mViewModel.lon = lon;
+        mViewModel.lat = lat;
+        mViewModel.description = description;
+        mViewModel.actualTime = actualTime;
+        refresh();
     }
 }

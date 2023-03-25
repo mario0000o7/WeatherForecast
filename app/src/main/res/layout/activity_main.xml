@@ -27,9 +27,7 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/toolbar2"
-        app:layout_constraintVertical_bias="0.0">
-
-    </androidx.viewpager2.widget.ViewPager2>
+        app:layout_constraintVertical_bias="0.0" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/favourites"
@@ -74,18 +72,35 @@
 
             android:inputType="text"
             android:maxLines="1"
-            app:endIconMode="clear_text">
+            >
 
         </EditText>
+
+        <ImageView
+            android:id="@+id/refresh"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="9"
+            app:tint="@color/white"
+            app:srcCompat="@drawable/wi_cloud_refresh" />
 
         <ImageView
             android:id="@+id/listfav"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="10"
-            android:tint="@color/white"
-            app:srcCompat="@drawable/menu_icon" />
+            android:layout_weight="9"
+            app:srcCompat="@drawable/menu_icon"
+            app:tint="@color/white" />
 
     </LinearLayout>
+
+    <ImageView
+        android:id="@+id/addFavourite"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:srcCompat="@drawable/iconmonstr_favorite_8"
+        app:tint="@color/white" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

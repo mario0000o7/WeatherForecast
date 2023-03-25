@@ -1,5 +1,7 @@
 package com.example.weatherforecast;
 
+import static java.security.AccessController.getContext;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
@@ -11,9 +13,12 @@ import androidx.viewpager2.widget.ViewPager2;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.ContentValues;
 import android.content.SharedPreferences;
+import android.database.sqlite.SQLiteDatabase;
 import android.media.Image;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
@@ -21,6 +26,8 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import java.util.List;
 
 
 public class MainActivity extends AppCompatActivity{
@@ -32,6 +39,10 @@ public class MainActivity extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         SharedPreferences sharedPreferences = getSharedPreferences("currentCity", MODE_PRIVATE);
+        new MyDatabase(this);
+
+
+
 
 
 
@@ -44,6 +55,7 @@ public class MainActivity extends AppCompatActivity{
         myAdapter.addFragment(new Fragment1());
 
 
+
         editText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
@@ -51,7 +63,7 @@ public class MainActivity extends AppCompatActivity{
                    InputMethodManager im = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
                     im.hideSoftInputFromWindow(editText.getWindowToken(), 0);
                     WeatherApi weatherApi = new WeatherApi(editText.getText().toString(),myAdapter);
-                    weatherApi.start();
+                    weatherApi.execute();
 
 
                     System.out.println("done");
@@ -70,7 +82,8 @@ public class MainActivity extends AppCompatActivity{
 
 
         RecyclerView recyclerView = findViewById(R.id.favourites);
-        recyclerView.setAdapter(new ListAdapter());
+        ListAdapter listAdapter = new ListAdapter(this);
+        recyclerView.setAdapter(listAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         ImageView listfav = findViewById(R.id.listfav);
         listfav.setOnClickListener(new View.OnClickListener() {
@@ -81,6 +94,37 @@ public class MainActivity extends AppCompatActivity{
                 } else {
                     recyclerView.setVisibility(View.VISIBLE);
                 }
+            }
+        });
+
+        ImageView refresh = findViewById(R.id.refresh);
+        refresh.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                System.out.println("refresh");
+                WeatherApi weatherApi = new WeatherApi(sharedPreferences.getString("city", "brak"),myAdapter);
+                weatherApi.execute();
+            }
+        });
+
+        ImageView addfav = findViewById(R.id.addFavourite);
+        addfav.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String city = MyDatabase.getInstance().addCity();
+                if (city!=null)
+                    listAdapter.addCity(city);
+
+
+
+
+
+
+
+
+
+
+
             }
         });
 

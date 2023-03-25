@@ -36,7 +36,7 @@
                 android:layout_margin="10dp"
                 android:layout_weight="4"
                 android:src="@drawable/_47171"
-                android:tint="@color/white" />
+                app:tint="@color/white" />
 
             <TextView
                 android:id="@+id/latitudeicon"
@@ -71,7 +71,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:src="@drawable/wi_celsius"
-                android:tint="@color/white" />
+                app:tint="@color/white" />
 
             <TextView
                 android:id="@+id/temperature"
@@ -91,7 +91,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:src="@drawable/wi_time_2"
-                android:tint="@color/white" />
+                app:tint="@color/white" />
 
             <TextView
                 android:id="@+id/time"
@@ -111,7 +111,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:src="@drawable/wi_barometer"
-                android:tint="@color/white" />
+                app:tint="@color/white" />
 
             <TextView
                 android:id="@+id/preassure"
@@ -142,7 +142,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:src="@drawable/wi_cloud_refresh"
-            android:tint="@color/white" />
+            app:tint="@color/white" />
 
     </LinearLayout>
 
