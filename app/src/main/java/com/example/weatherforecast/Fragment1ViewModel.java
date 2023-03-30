@@ -44,4 +44,5 @@ public class Fragment1ViewModel extends ViewModel {
         this.actualTime = actualTime;
         notifyAllChanged();
     }
+
 }

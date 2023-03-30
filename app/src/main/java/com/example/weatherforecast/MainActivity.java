@@ -2,6 +2,8 @@ package com.example.weatherforecast;
 
 import static java.security.AccessController.getContext;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
@@ -19,6 +21,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.media.Image;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.PersistableBundle;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
@@ -35,11 +38,14 @@ public class MainActivity extends AppCompatActivity{
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        System.out.println("onCreateMain");
+
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         SharedPreferences sharedPreferences = getSharedPreferences("currentCity", MODE_PRIVATE);
         new MyDatabase(this);
+
 
 
 
@@ -108,12 +114,15 @@ public class MainActivity extends AppCompatActivity{
         });
 
         ImageView addfav = findViewById(R.id.addFavourite);
+        if (MyDatabase.getInstance().isCityInDatabase(sharedPreferences.getString("city", "brak"))) {
+            addfav.setImageResource(R.drawable.iconmonstr_favorite_7);
+        } else {
+            addfav.setImageResource(R.drawable.iconmonstr_favorite_8);
+        }
         addfav.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String city = MyDatabase.getInstance().addCity();
-                if (city!=null)
-                    listAdapter.addCity(city);
+                listAdapter.addCity(sharedPreferences.getString("city", "brak"));
 
 
 
@@ -131,8 +140,16 @@ public class MainActivity extends AppCompatActivity{
 
     }
 
+    @Override
+    public void onRestoreInstanceState(@Nullable Bundle savedInstanceState, @Nullable PersistableBundle persistentState) {
+        super.onRestoreInstanceState(savedInstanceState, persistentState);
 
+        System.out.println("onRestoreInstanceStateMain");
+    }
 
-
-
+    @Override
+    protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        System.out.println("onRestoreInstanceStateMain2");
+    }
 }

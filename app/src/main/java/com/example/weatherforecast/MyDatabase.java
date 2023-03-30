@@ -7,6 +7,14 @@ import android.content.ContentValues;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.os.AsyncTask;
+
+import java.lang.reflect.Method;
+import java.util.Dictionary;
+import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
 
 public class MyDatabase {
     private static MyDatabase instance;
@@ -36,7 +44,10 @@ public class MyDatabase {
     }
      String addCity(){
         try {
-
+            if(isCityInDatabase(sharedPreferences.getString("city", "brak"))) {
+                System.out.println("Juz jest w bazie");
+                return null;
+            }
 
             ContentValues values = new ContentValues();
             values.put(FeedReaderContract.FeedEntry.COLUMN_NAME_CITY, sharedPreferences.getString("city", "brak"));
@@ -85,4 +96,37 @@ public class MyDatabase {
         };
         return db.query(FeedReaderContract.FeedEntry.TABLE_NAME, projection, null, null, null, null, null);
     }
+    public Map<String,String> getCity(String city){
+        String[] projection = {
+                FeedReaderContract.FeedEntry.COLUMN_NAME_CITY,
+                FeedReaderContract.FeedEntry.COLUMN_NAME_TEMP,
+                FeedReaderContract.FeedEntry.COLUMN_NAME_PRESSURE,
+                FeedReaderContract.FeedEntry.COLUMN_NAME_LON,
+                FeedReaderContract.FeedEntry.COLUMN_NAME_LAT,
+                FeedReaderContract.FeedEntry.COLUMN_NAME_DESCRIPTION,
+                FeedReaderContract.FeedEntry.COLUMN_NAME_ACTUALTIME
+        };
+        Cursor cursor = db.query(FeedReaderContract.FeedEntry.TABLE_NAME, projection, FeedReaderContract.FeedEntry.COLUMN_NAME_CITY + " = ?", new String[]{city}, null, null, null);
+        cursor.moveToFirst();
+        if (cursor.getCount() == 0) {
+            return null;
+        }
+        Map<String,String> cityData =new HashMap<>();
+        cityData.put("city",cursor.getString(cursor.getColumnIndexOrThrow(FeedReaderContract.FeedEntry.COLUMN_NAME_CITY)));
+        cityData.put("temp",cursor.getString(cursor.getColumnIndexOrThrow(FeedReaderContract.FeedEntry.COLUMN_NAME_TEMP)));
+        cityData.put("pressure",cursor.getString(cursor.getColumnIndexOrThrow(FeedReaderContract.FeedEntry.COLUMN_NAME_PRESSURE)));
+        cityData.put("lon",cursor.getString(cursor.getColumnIndexOrThrow(FeedReaderContract.FeedEntry.COLUMN_NAME_LON)));
+        cityData.put("lat",cursor.getString(cursor.getColumnIndexOrThrow(FeedReaderContract.FeedEntry.COLUMN_NAME_LAT)));
+        cityData.put("description",cursor.getString(cursor.getColumnIndexOrThrow(FeedReaderContract.FeedEntry.COLUMN_NAME_DESCRIPTION)));
+        cityData.put("actualTime",cursor.getString(cursor.getColumnIndexOrThrow(FeedReaderContract.FeedEntry.COLUMN_NAME_ACTUALTIME)));
+        return cityData;
+
+
+
+
+
+
+    }
+
+
 }

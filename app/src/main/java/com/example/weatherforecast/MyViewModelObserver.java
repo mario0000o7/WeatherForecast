@@ -10,4 +10,5 @@ public interface MyViewModelObserver {
     void onActualTimeChanged(String actualTime);
     void onAllChanged(String city, Double temp, Double pressure, Double lon, Double lat, String description, String actualTime);
 
+
 }

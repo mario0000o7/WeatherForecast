@@ -16,8 +16,10 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.util.Objects;
 import java.util.Observable;
 
 public class Fragment1 extends Fragment implements MyViewModelObserver {
@@ -33,21 +35,30 @@ public class Fragment1 extends Fragment implements MyViewModelObserver {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mViewModel = new ViewModelProvider(getActivity()).get(Fragment1ViewModel.class);
+        mViewModel = new ViewModelProvider(requireActivity()).get(Fragment1ViewModel.class);
         mViewModel.addObserver(this);
 
         SharedPreferences sharedPreferences = getActivity().getSharedPreferences("currentCity", MODE_PRIVATE);
         mViewModel.city = sharedPreferences.getString("city", "brak");
-        mViewModel.temp = Double.valueOf(sharedPreferences.getFloat("temp", 0));
-        mViewModel.pressure = Double.valueOf(sharedPreferences.getFloat("pressure", 0));
-        mViewModel.lon = Double.valueOf(sharedPreferences.getFloat("lon", 0));
-        mViewModel.lat = Double.valueOf(sharedPreferences.getFloat("lat", 0));
+        mViewModel.temp = (double) sharedPreferences.getFloat("temp", 0);
+        mViewModel.pressure = (double) sharedPreferences.getFloat("pressure", 0);
+        mViewModel.lon = (double) sharedPreferences.getFloat("lon", 0);
+        mViewModel.lat = (double) sharedPreferences.getFloat("lat", 0);
         mViewModel.description = sharedPreferences.getString("description", "brak");
         mViewModel.actualTime = sharedPreferences.getString("actualTime", "brak");
         System.out.println("onCreate1");
     }
     void refresh(){
         if (getView() == null) return;
+
+        ImageView fav = getView().getRootView().findViewById(R.id.addFavourite);
+        if(fav!=null)
+            if(MyDatabase.getInstance().isCityInDatabase(mViewModel.city))
+                fav.setImageResource(R.drawable.iconmonstr_favorite_7);
+            else
+                fav.setImageResource(R.drawable.iconmonstr_favorite_8);
+
+
         TextView cityName = getView().findViewById(R.id.cityname);
         cityName.setText(mViewModel.city);
         TextView tempv = getView().findViewById(R.id.temperature);
@@ -160,8 +171,10 @@ public class Fragment1 extends Fragment implements MyViewModelObserver {
 
     @Override
     public void onAllChanged(String city, Double temp, Double pressure, Double lon, Double lat, String description, String actualTime) {
-        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("currentCity", MODE_PRIVATE);
+        SharedPreferences sharedPreferences = requireActivity().getSharedPreferences("currentCity", MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
+
+
         editor.putString("city", city);
         editor.putFloat("temp", temp.floatValue());
         editor.putFloat("pressure", pressure.floatValue());
@@ -180,4 +193,6 @@ public class Fragment1 extends Fragment implements MyViewModelObserver {
         mViewModel.actualTime = actualTime;
         refresh();
     }
+
+
 }
