@@ -2,6 +2,7 @@ package com.example.weatherforecast;
 
 import static android.content.Context.MODE_PRIVATE;
 
+import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -25,8 +26,11 @@ import java.util.Observable;
 public class Fragment1 extends Fragment implements MyViewModelObserver {
 
 
-    private Fragment1ViewModel mViewModel;
+    protected Fragment1ViewModel mViewModel;
 
+    public void setmViewModel(Fragment1ViewModel mViewModel) {
+        this.mViewModel = mViewModel;
+    }
 
     public Fragment1ViewModel getmViewModel() {
         return mViewModel;
@@ -35,8 +39,9 @@ public class Fragment1 extends Fragment implements MyViewModelObserver {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mViewModel = new ViewModelProvider(requireActivity()).get(Fragment1ViewModel.class);
+        mViewModel = new ViewModelProvider(getActivity()).get(Fragment1ViewModel.class);
         mViewModel.addObserver(this);
+        System.out.println(this.mViewModel.getObservers());
 
         SharedPreferences sharedPreferences = getActivity().getSharedPreferences("currentCity", MODE_PRIVATE);
         mViewModel.city = sharedPreferences.getString("city", "brak");
@@ -46,7 +51,10 @@ public class Fragment1 extends Fragment implements MyViewModelObserver {
         mViewModel.lat = (double) sharedPreferences.getFloat("lat", 0);
         mViewModel.description = sharedPreferences.getString("description", "brak");
         mViewModel.actualTime = sharedPreferences.getString("actualTime", "brak");
-        System.out.println("onCreate1");
+        mViewModel.windSpeed =  sharedPreferences.getString("windSpeed", "brak");
+        mViewModel.windDeg =  sharedPreferences.getString("windDeg", "0");
+        mViewModel.humidity = sharedPreferences.getString("humidity", "brak");
+        System.out.println("onCreateFragment1");
     }
     void refresh(){
         if (getView() == null) return;
@@ -78,25 +86,28 @@ public class Fragment1 extends Fragment implements MyViewModelObserver {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
+
         return inflater.inflate(R.layout.fragment_fragment1, container, false);
     }
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+    }
+
 
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        System.out.println("onDestroy1");
+        this.mViewModel.removeObserver(this);
     }
 
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        System.out.println("onDestroyView1");
-    }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        mViewModel = new ViewModelProvider(requireActivity()).get(Fragment1ViewModel.class);
         refresh();
 
 
@@ -170,7 +181,7 @@ public class Fragment1 extends Fragment implements MyViewModelObserver {
     }
 
     @Override
-    public void onAllChanged(String city, Double temp, Double pressure, Double lon, Double lat, String description, String actualTime) {
+    public void onAllChanged(String city, Double temp, Double pressure, Double lon, Double lat, String description, String actualTime, String windSpeed, String windDeg, String humidity) {
         SharedPreferences sharedPreferences = requireActivity().getSharedPreferences("currentCity", MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
 
@@ -182,7 +193,11 @@ public class Fragment1 extends Fragment implements MyViewModelObserver {
         editor.putFloat("lat", lat.floatValue());
         editor.putString("description", description);
         editor.putString("actualTime", actualTime);
+        editor.putString("windSpeed", windSpeed);
+        editor.putString("windDeg",windDeg);
+        editor.putString("humidity", humidity);
         editor.apply();
+        System.out.println("onALL: "+windDeg);
 
         mViewModel.city = city;
         mViewModel.temp = temp;
@@ -191,6 +206,9 @@ public class Fragment1 extends Fragment implements MyViewModelObserver {
         mViewModel.lat = lat;
         mViewModel.description = description;
         mViewModel.actualTime = actualTime;
+        mViewModel.windSpeed=windSpeed;
+        mViewModel.windDeg=windDeg;
+        mViewModel.humidity=humidity;
         refresh();
     }
 

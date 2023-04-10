@@ -6,12 +6,22 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class UlubioneViewModel extends ViewModel {
-    private List<MyViewModelObserver> observers= new ArrayList<>();
-    public void addObserwer(MyViewModelObserver observer){
+    private List<UlubioneObserver> observers= new ArrayList<>();
+    public void addObserwer(UlubioneObserver observer){
         observers.add(observer);
     }
-    public void removeObserver(MyViewModelObserver observer){
+    public void removeObserver(UlubioneObserver observer){
         observers.remove(observer);
+    }
+
+    public List<UlubioneObserver> getObservers() {
+        return observers;
+    }
+
+    public void notifyFavouriteCityChanged(String city){
+        for(UlubioneObserver observer: observers){
+            observer.onFavouriteCityChanged(city);
+        }
     }
 
 

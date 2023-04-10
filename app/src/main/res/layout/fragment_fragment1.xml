@@ -33,8 +33,7 @@
                 android:id="@+id/imageView8"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_margin="10dp"
-                android:layout_weight="4"
+                android:layout_weight="5"
                 android:src="@drawable/_47171"
                 app:tint="@color/white" />
 
@@ -69,15 +68,15 @@
                 android:id="@+id/imageView3"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:src="@drawable/wi_celsius"
+                android:layout_weight="4"
+                android:src="@drawable/cel"
                 app:tint="@color/white" />
 
             <TextView
                 android:id="@+id/temperature"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
+                android:layout_weight="3"
                 android:autoSizeTextType="uniform"
                 android:gravity="center"
                 android:maxLines="1"
@@ -89,7 +88,7 @@
                 android:id="@+id/imageView4"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
+                android:layout_weight="4"
                 android:src="@drawable/wi_time_2"
                 app:tint="@color/white" />
 
@@ -97,7 +96,7 @@
                 android:id="@+id/time"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
+                android:layout_weight="3"
                 android:autoSizeTextType="uniform"
                 android:gravity="center"
                 android:maxLines="1"
@@ -109,15 +108,15 @@
                 android:id="@+id/imageView5"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:src="@drawable/wi_barometer"
+                android:layout_weight="4"
+                android:src="@drawable/bar"
                 app:tint="@color/white" />
 
             <TextView
                 android:id="@+id/preassure"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
+                android:layout_weight="3"
                 android:autoSizeTextType="uniform"
                 android:gravity="center"
                 android:maxLines="1"

@@ -12,28 +12,35 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
+import java.util.Map;
 import java.util.Observable;
 import java.util.Observer;
 
-public class ListAdapter extends RecyclerView.Adapter<MyViewHolder> {
+public class ListAdapter extends RecyclerView.Adapter<MyViewHolder> implements UlubioneObserver{
     ArrayList<String>places=new ArrayList<>();
+    private UlubioneViewModel ulubioneViewModel;
     MainActivity mainActivity;
     public ListAdapter(MainActivity mainActivity) {
-        Cursor cursor = MyDatabase.getInstance().getCursor();
+        Map<String,Map<String,String>>cities = MyDatabase.getInstance().getCities();
         this.mainActivity = mainActivity;
+        ulubioneViewModel = new ViewModelProvider(mainActivity).get(UlubioneViewModel.class);
+        ulubioneViewModel.addObserwer(this);
+        System.out.println(ulubioneViewModel.getObservers());
 
-        while (cursor.moveToNext()){
-            System.out.println(cursor.getString(cursor.getColumnIndexOrThrow(FeedReaderContract.FeedEntry.COLUMN_NAME_CITY)));
-            String city = cursor.getString(cursor.getColumnIndexOrThrow(FeedReaderContract.FeedEntry.COLUMN_NAME_CITY));
-            places.add(city);
+        for (Map.Entry<String,Map<String,String>> entry : cities.entrySet()) {
+            places.add(entry.getKey());
         }
 
 
 
     }
+
+
+
     public void addCity(String city){
         ImageView fav = mainActivity.findViewById(R.id.addFavourite);
         if(!places.contains(city)) {
@@ -73,15 +80,18 @@ public class ListAdapter extends RecyclerView.Adapter<MyViewHolder> {
     }
 
 
-
     @Override
     public int getItemCount() {
         return places.size();
     }
 
 
-
-
-
+    @Override
+    public void onFavouriteCityChanged(String city) {
+        addCity(city);
+    }
+    public void removeObserver(){
+        ulubioneViewModel.removeObserver(this);
+    }
 
 }

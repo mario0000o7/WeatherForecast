@@ -79,9 +79,11 @@ public class Ulubione extends Fragment implements MyViewModelObserver {
     }
 
     @Override
-    public void onAllChanged(String city, Double temp, Double pressure, Double lon, Double lat, String description, String actualTime) {
+    public void onAllChanged(String city, Double temp, Double pressure, Double lon, Double lat, String description, String actualTime, String windSpeed, String windDeg, String humidity) {
 
     }
+
+
 
 
 }

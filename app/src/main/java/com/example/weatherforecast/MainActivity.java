@@ -34,6 +34,8 @@ import java.util.List;
 
 
 public class MainActivity extends AppCompatActivity{
+    MyAdapter myAdapter;
+    ListAdapter listAdapter;
 
 
     @Override
@@ -55,8 +57,8 @@ public class MainActivity extends AppCompatActivity{
 
         ViewPager2 viewPager = findViewById(R.id.widok1);
         EditText editText = findViewById(R.id.search);
-        MyAdapter myAdapter = new MyAdapter(this);
-        myAdapter.addFragment(new Fragment1());
+        myAdapter = new MyAdapter(this);
+        myAdapter.addFragment(new Fragment2());
         myAdapter.addFragment(new Fragment1());
         myAdapter.addFragment(new Fragment1());
 
@@ -88,7 +90,7 @@ public class MainActivity extends AppCompatActivity{
 
 
         RecyclerView recyclerView = findViewById(R.id.favourites);
-        ListAdapter listAdapter = new ListAdapter(this);
+        listAdapter = new ListAdapter(this);
         recyclerView.setAdapter(listAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         ImageView listfav = findViewById(R.id.listfav);
@@ -108,6 +110,7 @@ public class MainActivity extends AppCompatActivity{
             @Override
             public void onClick(View v) {
                 System.out.println("refresh");
+                System.out.println(myAdapter.fragments);
                 WeatherApi weatherApi = new WeatherApi(sharedPreferences.getString("city", "brak"),myAdapter);
                 weatherApi.execute();
             }
@@ -141,15 +144,16 @@ public class MainActivity extends AppCompatActivity{
     }
 
     @Override
-    public void onRestoreInstanceState(@Nullable Bundle savedInstanceState, @Nullable PersistableBundle persistentState) {
-        super.onRestoreInstanceState(savedInstanceState, persistentState);
-
-        System.out.println("onRestoreInstanceStateMain");
+    protected void onDestroy() {
+        super.onDestroy();
+        System.out.println("onDestroyMain");
+        MyDatabase.getInstance().closeDatabase();
+        listAdapter.removeObserver();
     }
 
     @Override
-    protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
-        super.onRestoreInstanceState(savedInstanceState);
-        System.out.println("onRestoreInstanceStateMain2");
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
     }
+
 }

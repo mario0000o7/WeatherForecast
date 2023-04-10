@@ -25,11 +25,15 @@ public class WeatherApi extends AsyncTask<Void,Void,Weather> {
         openWeatherMapClient.setReadTimeout(10000);
         openWeatherMapClient.setConnectionTimeout(10000);
         this.myAdapter=myAdapter;
+        System.out.println(myAdapter.fragments);
         this.city = city;
     }
 
     @Override
     public void onPostExecute(Weather weather) {
+        if (weather==null){
+            return;
+        }
 
         Fragment tmp=myAdapter.getFragment(1);
         Double temp=Math.floor(weather.getTemperature().getValue());
@@ -39,15 +43,26 @@ public class WeatherApi extends AsyncTask<Void,Void,Weather> {
         Double lat=Math.floor(weather.getLocation().getCoordinate().getLatitude());
         String description=weather.getWeatherState().getDescription();
         String time=weather.getCalculationTime().format(DateTimeFormatter.ofPattern("HH:mm:ss"));
+        String wind= String.valueOf(weather.getWind().getSpeed());
+        String humidity= String.valueOf(weather.getHumidity().getValue());
+        String windDeg= String.valueOf(weather.getWind().getDegrees());
+
         Fragment1ViewModel fragment1ViewModel=((Fragment1)tmp).getmViewModel();
-        fragment1ViewModel.setAll(city, temp, pressure, lon, lat, description, time);
+        fragment1ViewModel.setAll(city, temp, pressure, lon, lat, description, time, wind, windDeg, humidity);
 
         }
 
 
     @Override
     protected Weather doInBackground(Void... voids) {
-        return openWeatherMapClient.currentWeather().single().byCityName(city).language(Language.POLISH).unitSystem(UnitSystem.METRIC).retrieve().asJava();
+        try {
+           Weather weather= openWeatherMapClient.currentWeather().single().byCityName(city).language(Language.POLISH).unitSystem(UnitSystem.METRIC).retrieve().asJava();
+           return weather;
+        }
+        catch (Exception e){
+            return null;
+        }
+
     }
 }
 

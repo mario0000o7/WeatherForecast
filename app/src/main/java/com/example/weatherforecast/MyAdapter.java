@@ -3,15 +3,20 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 
 import java.util.ArrayList;
 
 public class MyAdapter extends FragmentStateAdapter {
     ArrayList<Fragment> fragments = new ArrayList<>();
+    MainActivity mainActivity;
 
     public MyAdapter(@NonNull FragmentActivity fragmentActivity) {
+
+
         super(fragmentActivity);
+        this.mainActivity = (MainActivity) fragmentActivity;
     }
     @NonNull
     @Override
@@ -27,6 +32,7 @@ public class MyAdapter extends FragmentStateAdapter {
     }
 
     public void addFragment(Fragment fragment) {
+        ((Fragment1)fragment).setmViewModel(new ViewModelProvider(mainActivity).get(Fragment1ViewModel.class));
         fragments.add(fragment);
     }
 
