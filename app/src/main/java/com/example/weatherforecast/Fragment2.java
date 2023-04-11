@@ -35,6 +35,13 @@ public class Fragment2 extends Fragment1{
     }
 
     @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mViewModel.removeObserver(this);
+
+    }
+
+    @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mViewModel = new ViewModelProvider(getActivity()).get(Fragment1ViewModel.class);

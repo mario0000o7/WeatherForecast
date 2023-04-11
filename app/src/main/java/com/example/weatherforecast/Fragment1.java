@@ -100,7 +100,7 @@ public class Fragment1 extends Fragment implements MyViewModelObserver {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        this.mViewModel.removeObserver(this);
+        mViewModel.removeObserver(this);
     }
 
 

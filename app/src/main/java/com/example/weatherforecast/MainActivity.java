@@ -60,7 +60,7 @@ public class MainActivity extends AppCompatActivity{
         myAdapter = new MyAdapter(this);
         myAdapter.addFragment(new Fragment2());
         myAdapter.addFragment(new Fragment1());
-        myAdapter.addFragment(new Fragment1());
+        myAdapter.addFragment(new DayList());
 
 
 
