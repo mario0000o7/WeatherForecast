@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#002C5364"
     tools:context=".Day">
 
     <LinearLayout
@@ -16,6 +17,9 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
+            android:autoSizeTextType="uniform"
+            android:gravity="center"
+            android:maxLines="1"
             android:text="TextView" />
 
         <ImageView
@@ -23,13 +27,17 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:src="@drawable/wi_cloud_refresh" />
+            android:src="@drawable/wi_cloud_refresh"
+            app:tint="@color/white" />
 
         <TextView
             android:id="@+id/temp"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
+            android:autoSizeTextType="uniform"
+            android:gravity="center"
+            android:maxLines="1"
             android:text="TextView" />
     </LinearLayout>
 </FrameLayout>

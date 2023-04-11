@@ -57,6 +57,7 @@ public class MyDatabase {
             values.put(FeedReaderContract.FeedEntry.COLUMN_NAME_WINDSPEED, sharedPreferences.getString("windSpeed", "brak"));
             values.put(FeedReaderContract.FeedEntry.COLUMN_NAME_WINDDEG, sharedPreferences.getString("windDir", "0"));
             values.put(FeedReaderContract.FeedEntry.COLUMN_NAME_HUMIDITY, sharedPreferences.getString("humidity", "brak"));
+            values.put(FeedReaderContract.FeedEntry.COLUMN_NAME_ICON, sharedPreferences.getString("icon", "brak"));
             db.insert(FeedReaderContract.FeedEntry.TABLE_NAME, null, values);
         }catch (Exception | Error e){
             System.out.println("Juz jest w bazie");
@@ -84,6 +85,7 @@ public class MyDatabase {
         values.put(FeedReaderContract.FeedEntry.COLUMN_NAME_WINDSPEED, sharedPreferences.getString("windSpeed", "brak"));
         values.put(FeedReaderContract.FeedEntry.COLUMN_NAME_WINDDEG, sharedPreferences.getString("windDir", "0"));
         values.put(FeedReaderContract.FeedEntry.COLUMN_NAME_HUMIDITY, sharedPreferences.getString("humidity", "brak"));
+        values.put(FeedReaderContract.FeedEntry.COLUMN_NAME_ICON, sharedPreferences.getString("icon", "brak"));
         db.update(FeedReaderContract.FeedEntry.TABLE_NAME, values, FeedReaderContract.FeedEntry.COLUMN_NAME_CITY + " = ?", new String[]{city});
         db.close();
     }
@@ -117,7 +119,8 @@ public class MyDatabase {
                     FeedReaderContract.FeedEntry.COLUMN_NAME_ACTUALTIME,
                     FeedReaderContract.FeedEntry.COLUMN_NAME_WINDSPEED,
                     FeedReaderContract.FeedEntry.COLUMN_NAME_WINDDEG,
-                    FeedReaderContract.FeedEntry.COLUMN_NAME_HUMIDITY
+                    FeedReaderContract.FeedEntry.COLUMN_NAME_HUMIDITY,
+                    FeedReaderContract.FeedEntry.COLUMN_NAME_ICON
             };
             Cursor cursor = db.query(FeedReaderContract.FeedEntry.TABLE_NAME, projection, null, null, null, null, null);
             cursor.moveToFirst();
@@ -134,6 +137,7 @@ public class MyDatabase {
                 cityData.put("windSpeed",cursor.getString(cursor.getColumnIndexOrThrow(FeedReaderContract.FeedEntry.COLUMN_NAME_WINDSPEED)));
                 cityData.put("windDir",cursor.getString(cursor.getColumnIndexOrThrow(FeedReaderContract.FeedEntry.COLUMN_NAME_WINDDEG)));
                 cityData.put("humidity",cursor.getString(cursor.getColumnIndexOrThrow(FeedReaderContract.FeedEntry.COLUMN_NAME_HUMIDITY)));
+                cityData.put("icon",cursor.getString(cursor.getColumnIndexOrThrow(FeedReaderContract.FeedEntry.COLUMN_NAME_ICON)));
                 citiesData.put(cursor.getString(cursor.getColumnIndexOrThrow(FeedReaderContract.FeedEntry.COLUMN_NAME_CITY)),cityData);
                 cursor.moveToNext();
             }
@@ -154,7 +158,8 @@ public class MyDatabase {
                 FeedReaderContract.FeedEntry.COLUMN_NAME_ACTUALTIME,
                 FeedReaderContract.FeedEntry.COLUMN_NAME_WINDSPEED,
                 FeedReaderContract.FeedEntry.COLUMN_NAME_WINDDEG,
-                FeedReaderContract.FeedEntry.COLUMN_NAME_HUMIDITY
+                FeedReaderContract.FeedEntry.COLUMN_NAME_HUMIDITY,
+                FeedReaderContract.FeedEntry.COLUMN_NAME_ICON
         };
         Cursor cursor = db.query(FeedReaderContract.FeedEntry.TABLE_NAME, projection, FeedReaderContract.FeedEntry.COLUMN_NAME_CITY + " = ?", new String[]{city}, null, null, null);
         cursor.moveToFirst();
@@ -174,6 +179,7 @@ public class MyDatabase {
         cityData.put("windSpeed",cursor.getString(cursor.getColumnIndexOrThrow(FeedReaderContract.FeedEntry.COLUMN_NAME_WINDSPEED)));
         cityData.put("windDeg",cursor.getString(cursor.getColumnIndexOrThrow(FeedReaderContract.FeedEntry.COLUMN_NAME_WINDDEG)));
         cityData.put("humidity",cursor.getString(cursor.getColumnIndexOrThrow(FeedReaderContract.FeedEntry.COLUMN_NAME_HUMIDITY)));
+        cityData.put("icon",cursor.getString(cursor.getColumnIndexOrThrow(FeedReaderContract.FeedEntry.COLUMN_NAME_ICON)));
         cursor.close();
         db.close();
 

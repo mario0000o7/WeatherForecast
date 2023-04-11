@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">WeatherForecast</string>
+    <string name="day1">Poniedziałek</string>
+    <string name="day2">Wtorek</string>
+    <string name="day3">Środa</string>
+    <string name="day4">Czwartek</string>
+    <string name="day5">Piątek</string>
+    <string name="sunrise">Wschód słońca</string>
+    <string name="sunset">Zachód słońca</string>
+    <string name="wind">Wiatr</string>
+    <string name="humidity">Wilgotność</string>
+    <string name="pressure">Ciśnienie</string>
+    <string name="clouds">Zachmurzenie</string>
+    <string name="visibility">Widoczność</string>
+    <string name="feels_like">Odczuwalna</string>
+    <string name="temp">Temperatura</string>
+    <string name="temp_min">Min</string>
+    <string name="temp_max">Max</string>
+
+
+</resources>

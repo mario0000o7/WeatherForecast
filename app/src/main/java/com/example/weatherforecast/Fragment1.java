@@ -20,6 +20,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Objects;
 import java.util.Observable;
 
@@ -54,6 +56,7 @@ public class Fragment1 extends Fragment implements MyViewModelObserver {
         mViewModel.windSpeed =  sharedPreferences.getString("windSpeed", "brak");
         mViewModel.windDeg =  sharedPreferences.getString("windDeg", "0");
         mViewModel.humidity = sharedPreferences.getString("humidity", "brak");
+        mViewModel.icon = sharedPreferences.getString("icon", "brak");
         System.out.println("onCreateFragment1");
     }
     void refresh(){
@@ -81,6 +84,8 @@ public class Fragment1 extends Fragment implements MyViewModelObserver {
         descriptionv.setText(mViewModel.description);
         TextView actualTimev = getView().findViewById(R.id.time);
         actualTimev.setText(mViewModel.actualTime);
+        ImageView icon = getView().findViewById(R.id.weathericon);
+        icon.setImageResource(IconChanger.change(mViewModel.icon));
     }
 
     @Override
@@ -181,7 +186,7 @@ public class Fragment1 extends Fragment implements MyViewModelObserver {
     }
 
     @Override
-    public void onAllChanged(String city, Double temp, Double pressure, Double lon, Double lat, String description, String actualTime, String windSpeed, String windDeg, String humidity) {
+    public void onAllChanged(String city, Double temp, Double pressure, Double lon, Double lat, String description, String actualTime, String windSpeed, String windDeg, String humidity,String icon) {
         SharedPreferences sharedPreferences = requireActivity().getSharedPreferences("currentCity", MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
 
@@ -196,6 +201,16 @@ public class Fragment1 extends Fragment implements MyViewModelObserver {
         editor.putString("windSpeed", windSpeed);
         editor.putString("windDeg",windDeg);
         editor.putString("humidity", humidity);
+        editor.putString("icon",icon);
+        ArrayList<HashMap<String,String>> days=mViewModel.getDays();
+        if (days.size()>0)
+            for (int i = 0; i < 5; i++) {
+                editor.putString("day" + i, days.get(i).get("day"));
+                editor.putString("temp" + i, days.get(i).get("temp"));
+                editor.putString("icon" + i, days.get(i).get("icon"));
+            }
+
+
         editor.apply();
         System.out.println("onALL: "+windDeg);
 
@@ -209,6 +224,23 @@ public class Fragment1 extends Fragment implements MyViewModelObserver {
         mViewModel.windSpeed=windSpeed;
         mViewModel.windDeg=windDeg;
         mViewModel.humidity=humidity;
+        mViewModel.icon=icon;
+        refresh();
+    }
+
+    @Override
+    public void onDayChanged() {
+        SharedPreferences sharedPreferences = requireActivity().getSharedPreferences("currentCity", MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        ArrayList<HashMap<String,String>> days=mViewModel.getDays();
+        for (int i = 0; i < 5; i++) {
+            editor.putString("day" + i, days.get(i).get("day"));
+            editor.putString("temp" + i, days.get(i).get("temp"));
+            editor.putString("icon" + i, days.get(i).get("icon"));
+        }
+
+
+        editor.apply();
         refresh();
     }
 

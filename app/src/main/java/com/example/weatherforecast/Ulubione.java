@@ -13,7 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-public class Ulubione extends Fragment implements MyViewModelObserver {
+public class Ulubione extends Fragment{
 
     private UlubioneViewModel mViewModel;
 
@@ -39,47 +39,6 @@ public class Ulubione extends Fragment implements MyViewModelObserver {
         System.out.println("onActivityCreated5");
         mViewModel = new ViewModelProvider(this).get(UlubioneViewModel.class);
 
-
-    }
-
-
-    @Override
-    public void onCityChanged(String city) {
-
-    }
-
-    @Override
-    public void onTempChanged(Double temp) {
-
-    }
-
-    @Override
-    public void onPressureChanged(Double pressure) {
-
-    }
-
-    @Override
-    public void onLonChanged(Double lon) {
-
-    }
-
-    @Override
-    public void onLatChanged(Double lat) {
-
-    }
-
-    @Override
-    public void onDescriptionChanged(String description) {
-
-    }
-
-    @Override
-    public void onActualTimeChanged(String actualTime) {
-
-    }
-
-    @Override
-    public void onAllChanged(String city, Double temp, Double pressure, Double lon, Double lat, String description, String actualTime, String windSpeed, String windDeg, String humidity) {
 
     }
 

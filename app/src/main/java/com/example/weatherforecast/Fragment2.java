@@ -59,6 +59,7 @@ public class Fragment2 extends Fragment1{
         mViewModel.windSpeed =  sharedPreferences.getString("windSpeed", "brak");
         mViewModel.windDeg =  sharedPreferences.getString("windDeg", "0");
         mViewModel.humidity = sharedPreferences.getString("humidity", "brak");
+        mViewModel.icon = sharedPreferences.getString("icon", "brak");
         System.out.println("onCreateFragment2");
     }
 
