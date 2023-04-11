@@ -6,6 +6,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -57,8 +58,16 @@ public class Fragment1 extends Fragment implements MyViewModelObserver {
         mViewModel.windDeg =  sharedPreferences.getString("windDeg", "0");
         mViewModel.humidity = sharedPreferences.getString("humidity", "brak");
         mViewModel.icon = sharedPreferences.getString("icon", "brak");
+        for (int i=0;i<5;i++){
+            HashMap<String, String> day = new HashMap<>();
+            day.put("day", sharedPreferences.getString("day"+i, "brak"));
+            day.put("temp", sharedPreferences.getString("temp"+i, "brak"));
+            day.put("icon", sharedPreferences.getString("icon"+i, "brak"));
+            mViewModel.addDay(day);
+        }
         System.out.println("onCreateFragment1");
     }
+    @SuppressLint("SetTextI18n")
     void refresh(){
         if (getView() == null) return;
 

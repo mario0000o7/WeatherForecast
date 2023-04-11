@@ -4,6 +4,7 @@ import static android.content.Context.MODE_PRIVATE;
 
 import androidx.lifecycle.ViewModelProvider;
 
+import android.annotation.SuppressLint;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
@@ -16,6 +17,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import java.util.Objects;
 
 public class Fragment2 extends Fragment1{
 
@@ -44,23 +47,7 @@ public class Fragment2 extends Fragment1{
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mViewModel = new ViewModelProvider(getActivity()).get(Fragment1ViewModel.class);
-        mViewModel.addObserver(this);
-
-
-        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("currentCity", MODE_PRIVATE);
-        mViewModel.city = sharedPreferences.getString("city", "brak");
-        mViewModel.temp = (double) sharedPreferences.getFloat("temp", 0);
-        mViewModel.pressure = (double) sharedPreferences.getFloat("pressure", 0);
-        mViewModel.lon = (double) sharedPreferences.getFloat("lon", 0);
-        mViewModel.lat = (double) sharedPreferences.getFloat("lat", 0);
-        mViewModel.description = sharedPreferences.getString("description", "brak");
-        mViewModel.actualTime = sharedPreferences.getString("actualTime", "brak");
-        mViewModel.windSpeed =  sharedPreferences.getString("windSpeed", "brak");
-        mViewModel.windDeg =  sharedPreferences.getString("windDeg", "0");
-        mViewModel.humidity = sharedPreferences.getString("humidity", "brak");
-        mViewModel.icon = sharedPreferences.getString("icon", "brak");
-        System.out.println("onCreateFragment2");
+//
     }
 
     @Override
@@ -68,6 +55,7 @@ public class Fragment2 extends Fragment1{
         return super.getmViewModel();
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public void refresh() {
         if (getView() == null) return;
