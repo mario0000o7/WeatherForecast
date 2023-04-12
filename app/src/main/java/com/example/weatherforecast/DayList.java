@@ -93,7 +93,7 @@ public class DayList extends Fragment1 {
                 TextView day = list.get(i).findViewById(R.id.day);
                 TextView temp = list.get(i).findViewById(R.id.temp);
                 ImageView icon = list.get(i).findViewById(R.id.dayicon);
-                day.setText(data.get(i).get("day"));
+                day.setText(data.get(i).get("time"));
                 temp.setText(data.get(i).get("temp"));
                 icon.setImageResource(IconChanger.change(data.get(i).get("icon")));
 

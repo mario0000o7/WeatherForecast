@@ -3,6 +3,9 @@ pluginManagement {
         google()
         mavenCentral()
         gradlePluginPortal()
+
+
+
     }
 }
 dependencyResolutionManagement {
@@ -10,6 +13,11 @@ dependencyResolutionManagement {
     repositories {
         google()
         mavenCentral()
+        maven {
+            url "https://oss.sonatype.org/content/repositories/snapshots"
+            mavenContent {
+            }
+        }
     }
 }
 rootProject.name = "WeatherForecast"
