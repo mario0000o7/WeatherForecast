@@ -14,11 +14,18 @@ import com.github.prominence.openweathermap.api.model.weather.Weather;
 
 
 import org.apache.commons.lang3.StringUtils;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
+import java.text.Format;
+import java.text.SimpleDateFormat;
+import java.time.Instant;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -30,17 +37,20 @@ public class WeatherApi extends AsyncTask<Void, Void, ArrayList<Object>> {
     String API_TOKEN = "059a1da9ccb871b070ce7269e3170e37";
     String city;
     MyAdapter myAdapter;
-    OpenWeatherMapClient openWeatherMapClient;
+    MyWeatherApi openWeatherMapClient;
+    public static final int REFRESH=1;
+    public static final int FIND=0;
+    private int mode=0;
 
 
-    public WeatherApi(String city, MyAdapter myAdapter) {
+    public WeatherApi(String city, MyAdapter myAdapter,int mode) {
         super();
-        openWeatherMapClient = new OpenWeatherMapClient(API_TOKEN);
-        openWeatherMapClient.setReadTimeout(10000);
-        openWeatherMapClient.setConnectionTimeout(10000);
+        openWeatherMapClient = new MyWeatherApi(API_TOKEN);
+
         this.myAdapter = myAdapter;
         System.out.println(myAdapter.fragments);
         this.city = city;
+        this.mode=mode;
     }
 
     @Override
@@ -48,35 +58,53 @@ public class WeatherApi extends AsyncTask<Void, Void, ArrayList<Object>> {
         if (weatherList == null) {
             return;
         }
-        Weather weather = (Weather) weatherList.get(0);
-        List<WeatherForecast> weatherForecasts = (List<WeatherForecast>) weatherList.get(1);
+        JSONObject weather = (JSONObject) weatherList.get(0);
+        JSONObject weatherForecasts5Days = (JSONObject) weatherList.get(1);
 
         Fragment tmp = myAdapter.getFragment(1);
-        Double temp = Math.floor(weather.getTemperature().getValue());
+        JSONObject main = null;
+        try {
+            main = weather.getJSONObject("main");
+        } catch (JSONException e) {
+            throw new RuntimeException(e);
+        }
+        Double temp  = Math.floor( main.optDouble("temp"));
 
-        Double pressure = Math.floor(weather.getAtmosphericPressure().getValue());
-        Double lon = Math.floor(weather.getLocation().getCoordinate().getLongitude());
-        Double lat = Math.floor(weather.getLocation().getCoordinate().getLatitude());
-        String description = weather.getWeatherState().getDescription();
-        String time = weather.getCalculationTime().format(DateTimeFormatter.ofPattern("HH:mm:ss"));
-        String wind = String.valueOf(weather.getWind().getSpeed());
-        String humidity = String.valueOf(weather.getHumidity().getValue());
-        String windDeg = String.valueOf(weather.getWind().getDegrees());
-        String location = weather.getLocation().getName();
-        String icon = weather.getWeatherState().getIconId();
+        Double pressure = Math.floor(main.optDouble("pressure"));
+        JSONObject coord = null;
+        try {
+            coord = weather.getJSONObject("coord");
+        } catch (JSONException e) {
+            throw new RuntimeException(e);
+        }
+        Double lon = Math.floor(coord.optDouble("lon"));
+        Double lat = Math.floor(coord.optDouble("lat"));
+        JSONObject weatherJson = weather.optJSONArray("weather").optJSONObject(0);
+        String description = weatherJson.optString("description");
+        int dt = weather.optInt("dt");
+        String time =  new SimpleDateFormat("HH:mm").format(Date.from(Instant.ofEpochSecond(dt)));
+        JSONObject windJson = weather.optJSONObject("wind");
+        String wind = String.valueOf(windJson.optDouble("speed"));
+        String humidity = String.valueOf(main.optDouble("humidity"));
+        String windDeg = String.valueOf(windJson.optDouble("deg"));
+        String location = weather.optString("name");
+        String icon = weatherJson.optString("icon");
 
         Fragment1ViewModel fragment1ViewModel = ((Fragment1) tmp).getmViewModel();
-        fragment1ViewModel.setAll(location, temp, pressure, lon, lat, description, time, wind, windDeg, humidity, icon);
         Fragment tmp2 = myAdapter.getFragment(2);
         Fragment1ViewModel fragment1ViewModel2 = ((Fragment1) tmp2).getmViewModel();
         fragment1ViewModel2.clearDays();
-        Locale locale = new Locale("pl", "PL");
-        for (int i = 0; i < weatherForecasts.size(); i++) {
-
-            Double temp2 = Math.floor(weatherForecasts.get(i).getTemperature().getValue());
-            String time2 = StringUtils.capitalize(weatherForecasts.get(i).getForecastTime().format(DateTimeFormatter.ofPattern("EEE", locale)).toString());
+        JSONArray list = null;
+        try {
+            list = weatherForecasts5Days.getJSONArray("list");
+        } catch (JSONException e) {
+            throw new RuntimeException(e);
+        }
+        for (int i = 0; i < list.length(); i++) {
+            Double temp2 = Math.floor(list.optJSONObject(i).optJSONObject("temp").optDouble("eve"));
+            String time2 =  StringUtils.capitalize(new SimpleDateFormat("EEE",new Locale("pl")).format(Date.from(Instant.ofEpochSecond(list.optJSONObject(i).optInt("dt")))));
             System.out.println(time2);
-            String icon2 = weatherForecasts.get(i).getWeatherState().getIconId();
+            String icon2 = list.optJSONObject(i).optJSONArray("weather").optJSONObject(0).optString("icon");
 
 
             HashMap<String, String> day = new HashMap<>();
@@ -86,7 +114,16 @@ public class WeatherApi extends AsyncTask<Void, Void, ArrayList<Object>> {
             fragment1ViewModel2.addDay(day);
 
         }
-        fragment1ViewModel2.setCities();
+
+        MyDatabase.getInstance().updateCity(location, temp, pressure, lat, lon, time,description, wind, windDeg, humidity, icon);
+
+        if(mode==FIND)
+        {
+            fragment1ViewModel.setAll(location, temp, pressure, lon, lat, description, time, wind, windDeg, humidity, icon);
+            fragment1ViewModel2.setCities();
+        }
+
+
 
     }
 
@@ -94,22 +131,12 @@ public class WeatherApi extends AsyncTask<Void, Void, ArrayList<Object>> {
     @Override
     protected ArrayList<Object> doInBackground(Void... voids) {
         try {
-            Weather weather = openWeatherMapClient.currentWeather().single().byCityName(city).language(Language.POLISH).unitSystem(UnitSystem.METRIC).retrieve().asJava();
-            Forecast weather5Days = openWeatherMapClient.forecast5Day3HourStep().byCityName(city).language(Language.POLISH).unitSystem(UnitSystem.METRIC).retrieve().asJava();
-            Locale locale = new Locale("pl", "PL");
-            List<WeatherForecast> weatherListWithoutDuplicates =
-                    weather5Days.getWeatherForecasts()
-                            .stream() // Create a stream of the weather forecasts
-                            .collect(Collectors.collectingAndThen(
-                                    Collectors.toCollection(
-                                            () -> new TreeSet<>(Comparator.comparing(wf -> wf.getForecastTime().getDayOfWeek()
-                                            ))
-                                    ), ArrayList::new)
-                            );
-            weatherListWithoutDuplicates=weatherListWithoutDuplicates.stream().sorted( Comparator.comparing(WeatherForecast::getForecastTime)).collect(Collectors.toList());
+            JSONObject weatherData = openWeatherMapClient.getCurrentWeather(city);
+            JSONObject weather5Days = openWeatherMapClient.get5DaysForecast(city);
+
             ArrayList<Object> weatherList = new ArrayList<>();
-            weatherList.add(weather);
-            weatherList.add(weatherListWithoutDuplicates);
+            weatherList.add(weatherData);
+            weatherList.add(weather5Days);
             return weatherList;
         } catch (Exception e) {
             e.printStackTrace();

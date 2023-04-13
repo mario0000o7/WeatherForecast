@@ -55,7 +55,7 @@ public class MyDatabase {
             values.put(FeedReaderContract.FeedEntry.COLUMN_NAME_ACTUALTIME, sharedPreferences.getString("actualTime", "brak"));
             values.put(FeedReaderContract.FeedEntry.COLUMN_NAME_DESCRIPTION, sharedPreferences.getString("description", "brak"));
             values.put(FeedReaderContract.FeedEntry.COLUMN_NAME_WINDSPEED, sharedPreferences.getString("windSpeed", "brak"));
-            values.put(FeedReaderContract.FeedEntry.COLUMN_NAME_WINDDEG, sharedPreferences.getString("windDir", "0"));
+            values.put(FeedReaderContract.FeedEntry.COLUMN_NAME_WINDDEG, sharedPreferences.getString("windDeg", "0"));
             values.put(FeedReaderContract.FeedEntry.COLUMN_NAME_HUMIDITY, sharedPreferences.getString("humidity", "brak"));
             values.put(FeedReaderContract.FeedEntry.COLUMN_NAME_ICON, sharedPreferences.getString("icon", "brak"));
             db.insert(FeedReaderContract.FeedEntry.TABLE_NAME, null, values);
@@ -72,20 +72,20 @@ public class MyDatabase {
         db.delete(FeedReaderContract.FeedEntry.TABLE_NAME, FeedReaderContract.FeedEntry.COLUMN_NAME_CITY + " = ?", new String[]{city});
         db.close();
     }
-     public void updateCity(String city){
+     public void updateCity(String city,Double temp,Double pressure,Double lat,Double lon,String actualTime,String description,String windSpeed,String windDeg,String humidity,String icon){
         db=dbHelper.getWritableDatabase();
         ContentValues values = new ContentValues();
-        values.put(FeedReaderContract.FeedEntry.COLUMN_NAME_CITY, sharedPreferences.getString("city", "brak"));
-        values.put(FeedReaderContract.FeedEntry.COLUMN_NAME_TEMP, sharedPreferences.getFloat("temp", 0));
-        values.put(FeedReaderContract.FeedEntry.COLUMN_NAME_PRESSURE, sharedPreferences.getFloat("pressure", 0));
-        values.put(FeedReaderContract.FeedEntry.COLUMN_NAME_LAT, sharedPreferences.getFloat("lat", 0));
-        values.put(FeedReaderContract.FeedEntry.COLUMN_NAME_LON, sharedPreferences.getFloat("lon", 0));
-        values.put(FeedReaderContract.FeedEntry.COLUMN_NAME_ACTUALTIME, sharedPreferences.getString("actualTime", "brak"));
-        values.put(FeedReaderContract.FeedEntry.COLUMN_NAME_DESCRIPTION, sharedPreferences.getString("description", "brak"));
-        values.put(FeedReaderContract.FeedEntry.COLUMN_NAME_WINDSPEED, sharedPreferences.getString("windSpeed", "brak"));
-        values.put(FeedReaderContract.FeedEntry.COLUMN_NAME_WINDDEG, sharedPreferences.getString("windDir", "0"));
-        values.put(FeedReaderContract.FeedEntry.COLUMN_NAME_HUMIDITY, sharedPreferences.getString("humidity", "brak"));
-        values.put(FeedReaderContract.FeedEntry.COLUMN_NAME_ICON, sharedPreferences.getString("icon", "brak"));
+        values.put(FeedReaderContract.FeedEntry.COLUMN_NAME_CITY, city);
+        values.put(FeedReaderContract.FeedEntry.COLUMN_NAME_TEMP, temp);
+        values.put(FeedReaderContract.FeedEntry.COLUMN_NAME_PRESSURE, pressure);
+        values.put(FeedReaderContract.FeedEntry.COLUMN_NAME_LAT, lat);
+        values.put(FeedReaderContract.FeedEntry.COLUMN_NAME_LON, lon);
+        values.put(FeedReaderContract.FeedEntry.COLUMN_NAME_ACTUALTIME, actualTime);
+        values.put(FeedReaderContract.FeedEntry.COLUMN_NAME_DESCRIPTION, description);
+        values.put(FeedReaderContract.FeedEntry.COLUMN_NAME_WINDSPEED, windSpeed);
+        values.put(FeedReaderContract.FeedEntry.COLUMN_NAME_WINDDEG, windDeg);
+        values.put(FeedReaderContract.FeedEntry.COLUMN_NAME_HUMIDITY, humidity);
+        values.put(FeedReaderContract.FeedEntry.COLUMN_NAME_ICON, icon);
         db.update(FeedReaderContract.FeedEntry.TABLE_NAME, values, FeedReaderContract.FeedEntry.COLUMN_NAME_CITY + " = ?", new String[]{city});
         db.close();
     }
@@ -135,7 +135,7 @@ public class MyDatabase {
                 cityData.put("description",cursor.getString(cursor.getColumnIndexOrThrow(FeedReaderContract.FeedEntry.COLUMN_NAME_DESCRIPTION)));
                 cityData.put("actualTime",cursor.getString(cursor.getColumnIndexOrThrow(FeedReaderContract.FeedEntry.COLUMN_NAME_ACTUALTIME)));
                 cityData.put("windSpeed",cursor.getString(cursor.getColumnIndexOrThrow(FeedReaderContract.FeedEntry.COLUMN_NAME_WINDSPEED)));
-                cityData.put("windDir",cursor.getString(cursor.getColumnIndexOrThrow(FeedReaderContract.FeedEntry.COLUMN_NAME_WINDDEG)));
+                cityData.put("windDeg",cursor.getString(cursor.getColumnIndexOrThrow(FeedReaderContract.FeedEntry.COLUMN_NAME_WINDDEG)));
                 cityData.put("humidity",cursor.getString(cursor.getColumnIndexOrThrow(FeedReaderContract.FeedEntry.COLUMN_NAME_HUMIDITY)));
                 cityData.put("icon",cursor.getString(cursor.getColumnIndexOrThrow(FeedReaderContract.FeedEntry.COLUMN_NAME_ICON)));
                 citiesData.put(cursor.getString(cursor.getColumnIndexOrThrow(FeedReaderContract.FeedEntry.COLUMN_NAME_CITY)),cityData);

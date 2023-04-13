@@ -31,6 +31,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.List;
+import java.util.Map;
 
 
 public class MainActivity extends AppCompatActivity{
@@ -70,7 +71,7 @@ public class MainActivity extends AppCompatActivity{
                 if (actionId == EditorInfo.IME_ACTION_DONE) {
                    InputMethodManager im = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
                     im.hideSoftInputFromWindow(editText.getWindowToken(), 0);
-                    WeatherApi weatherApi = new WeatherApi(editText.getText().toString(),myAdapter);
+                    WeatherApi weatherApi = new WeatherApi(editText.getText().toString(),myAdapter,WeatherApi.FIND);
                     weatherApi.execute();
 
 
@@ -111,8 +112,14 @@ public class MainActivity extends AppCompatActivity{
             public void onClick(View v) {
                 System.out.println("refresh");
                 System.out.println(myAdapter.fragments);
-                WeatherApi weatherApi = new WeatherApi(sharedPreferences.getString("city", "brak"),myAdapter);
+                Map<String, Map<String,String>>cities = MyDatabase.getInstance().getCities();
+                for (String city : cities.keySet()) {
+                    WeatherApi weatherApi = new WeatherApi(city,myAdapter,WeatherApi.REFRESH);
+                    weatherApi.execute();
+                }
+                WeatherApi weatherApi = new WeatherApi(sharedPreferences.getString("city", "brak"),myAdapter,WeatherApi.FIND);
                 weatherApi.execute();
+
             }
         });
 
