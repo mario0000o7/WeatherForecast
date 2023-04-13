@@ -34,7 +34,7 @@ public class MyViewHolder extends RecyclerView.ViewHolder{
                 Map<String,String> cityData = MyDatabase.getInstance().getCity(mTextView.getText().toString());
                 System.out.println(cityData);
                 if(cityData!=null) {
-                    mViewModel.setAll(cityData.get("city"), Double.valueOf(cityData.get("temp")), Double.valueOf(cityData.get("pressure")), Double.valueOf(cityData.get("lon")), Double.valueOf(cityData.get("lat")), cityData.get("description"), cityData.get("actualTime"),cityData.get("windSpeed"),cityData.get("windDeg"),cityData.get("humidity"),cityData.get("icon"));
+                    mViewModel.setAll(cityData.get("city"), Double.valueOf(cityData.get("temp")), Double.valueOf(cityData.get("pressure")), Double.valueOf(cityData.get("lon")), Double.valueOf(cityData.get("lat")), cityData.get("description"), cityData.get("actualTime"),cityData.get("windSpeed"),cityData.get("windDeg"),cityData.get("humidity"),cityData.get("icon"),cityData.get("jsonList"));
                 }
 
 

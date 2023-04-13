@@ -16,6 +16,7 @@ public class FeedReaderContract {
         public static final String COLUMN_NAME_WINDDEG = "windDir";
         public static final String COLUMN_NAME_HUMIDITY = "humidity";
         public static final String COLUMN_NAME_ICON = "icon";
+        public static final String COLUMN_NAME_JSONLIST = "jsonList";
 
     }
     static final String SQL_CREATE_ENTRIES =
@@ -30,7 +31,8 @@ public class FeedReaderContract {
                     FeedEntry.COLUMN_NAME_WINDSPEED + " REAL," +
                     FeedEntry.COLUMN_NAME_WINDDEG + " REAL," +
                     FeedEntry.COLUMN_NAME_HUMIDITY + " REAL," +
-                    FeedEntry.COLUMN_NAME_ICON + " TEXT)";
+                    FeedEntry.COLUMN_NAME_ICON + " TEXT," +
+                    FeedEntry.COLUMN_NAME_JSONLIST + " TEXT)";
     static final String SQL_DELETE_ENTRIES =
             "DROP TABLE IF EXISTS " + FeedEntry.TABLE_NAME;
 }

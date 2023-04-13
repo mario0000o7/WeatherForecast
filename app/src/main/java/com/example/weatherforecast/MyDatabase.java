@@ -58,6 +58,7 @@ public class MyDatabase {
             values.put(FeedReaderContract.FeedEntry.COLUMN_NAME_WINDDEG, sharedPreferences.getString("windDeg", "0"));
             values.put(FeedReaderContract.FeedEntry.COLUMN_NAME_HUMIDITY, sharedPreferences.getString("humidity", "brak"));
             values.put(FeedReaderContract.FeedEntry.COLUMN_NAME_ICON, sharedPreferences.getString("icon", "brak"));
+            values.put(FeedReaderContract.FeedEntry.COLUMN_NAME_JSONLIST, sharedPreferences.getString("jsonList", "brak"));
             db.insert(FeedReaderContract.FeedEntry.TABLE_NAME, null, values);
         }catch (Exception | Error e){
             System.out.println("Juz jest w bazie");
@@ -72,7 +73,7 @@ public class MyDatabase {
         db.delete(FeedReaderContract.FeedEntry.TABLE_NAME, FeedReaderContract.FeedEntry.COLUMN_NAME_CITY + " = ?", new String[]{city});
         db.close();
     }
-     public void updateCity(String city,Double temp,Double pressure,Double lat,Double lon,String actualTime,String description,String windSpeed,String windDeg,String humidity,String icon){
+     public void updateCity(String city,Double temp,Double pressure,Double lat,Double lon,String actualTime,String description,String windSpeed,String windDeg,String humidity,String icon,String jsonList){
         db=dbHelper.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(FeedReaderContract.FeedEntry.COLUMN_NAME_CITY, city);
@@ -86,6 +87,7 @@ public class MyDatabase {
         values.put(FeedReaderContract.FeedEntry.COLUMN_NAME_WINDDEG, windDeg);
         values.put(FeedReaderContract.FeedEntry.COLUMN_NAME_HUMIDITY, humidity);
         values.put(FeedReaderContract.FeedEntry.COLUMN_NAME_ICON, icon);
+        values.put(FeedReaderContract.FeedEntry.COLUMN_NAME_JSONLIST, jsonList);
         db.update(FeedReaderContract.FeedEntry.TABLE_NAME, values, FeedReaderContract.FeedEntry.COLUMN_NAME_CITY + " = ?", new String[]{city});
         db.close();
     }
@@ -120,7 +122,8 @@ public class MyDatabase {
                     FeedReaderContract.FeedEntry.COLUMN_NAME_WINDSPEED,
                     FeedReaderContract.FeedEntry.COLUMN_NAME_WINDDEG,
                     FeedReaderContract.FeedEntry.COLUMN_NAME_HUMIDITY,
-                    FeedReaderContract.FeedEntry.COLUMN_NAME_ICON
+                    FeedReaderContract.FeedEntry.COLUMN_NAME_ICON,
+                    FeedReaderContract.FeedEntry.COLUMN_NAME_JSONLIST
             };
             Cursor cursor = db.query(FeedReaderContract.FeedEntry.TABLE_NAME, projection, null, null, null, null, null);
             cursor.moveToFirst();
@@ -138,6 +141,7 @@ public class MyDatabase {
                 cityData.put("windDeg",cursor.getString(cursor.getColumnIndexOrThrow(FeedReaderContract.FeedEntry.COLUMN_NAME_WINDDEG)));
                 cityData.put("humidity",cursor.getString(cursor.getColumnIndexOrThrow(FeedReaderContract.FeedEntry.COLUMN_NAME_HUMIDITY)));
                 cityData.put("icon",cursor.getString(cursor.getColumnIndexOrThrow(FeedReaderContract.FeedEntry.COLUMN_NAME_ICON)));
+                cityData.put("jsonList",cursor.getString(cursor.getColumnIndexOrThrow(FeedReaderContract.FeedEntry.COLUMN_NAME_JSONLIST)));
                 citiesData.put(cursor.getString(cursor.getColumnIndexOrThrow(FeedReaderContract.FeedEntry.COLUMN_NAME_CITY)),cityData);
                 cursor.moveToNext();
             }
@@ -159,7 +163,8 @@ public class MyDatabase {
                 FeedReaderContract.FeedEntry.COLUMN_NAME_WINDSPEED,
                 FeedReaderContract.FeedEntry.COLUMN_NAME_WINDDEG,
                 FeedReaderContract.FeedEntry.COLUMN_NAME_HUMIDITY,
-                FeedReaderContract.FeedEntry.COLUMN_NAME_ICON
+                FeedReaderContract.FeedEntry.COLUMN_NAME_ICON,
+                FeedReaderContract.FeedEntry.COLUMN_NAME_JSONLIST
         };
         Cursor cursor = db.query(FeedReaderContract.FeedEntry.TABLE_NAME, projection, FeedReaderContract.FeedEntry.COLUMN_NAME_CITY + " = ?", new String[]{city}, null, null, null);
         cursor.moveToFirst();
@@ -180,6 +185,7 @@ public class MyDatabase {
         cityData.put("windDeg",cursor.getString(cursor.getColumnIndexOrThrow(FeedReaderContract.FeedEntry.COLUMN_NAME_WINDDEG)));
         cityData.put("humidity",cursor.getString(cursor.getColumnIndexOrThrow(FeedReaderContract.FeedEntry.COLUMN_NAME_HUMIDITY)));
         cityData.put("icon",cursor.getString(cursor.getColumnIndexOrThrow(FeedReaderContract.FeedEntry.COLUMN_NAME_ICON)));
+        cityData.put("jsonList",cursor.getString(cursor.getColumnIndexOrThrow(FeedReaderContract.FeedEntry.COLUMN_NAME_JSONLIST)));
         cursor.close();
         db.close();
 

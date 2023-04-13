@@ -95,11 +95,14 @@ public class WeatherApi extends AsyncTask<Void, Void, ArrayList<Object>> {
         Fragment1ViewModel fragment1ViewModel2 = ((Fragment1) tmp2).getmViewModel();
         fragment1ViewModel2.clearDays();
         JSONArray list = null;
+        StringBuilder stringBuilder = new StringBuilder();
         try {
             list = weatherForecasts5Days.getJSONArray("list");
         } catch (JSONException e) {
             throw new RuntimeException(e);
         }
+        stringBuilder.append("[");
+
         for (int i = 0; i < list.length(); i++) {
             Double temp2 = Math.floor(list.optJSONObject(i).optJSONObject("temp").optDouble("eve"));
             String time2 =  StringUtils.capitalize(new SimpleDateFormat("EEE",new Locale("pl")).format(Date.from(Instant.ofEpochSecond(list.optJSONObject(i).optInt("dt")))));
@@ -111,15 +114,21 @@ public class WeatherApi extends AsyncTask<Void, Void, ArrayList<Object>> {
             day.put("temp", String.valueOf(temp2));
             day.put("time", time2);
             day.put("icon", icon2);
+            if(i==list.length()-1)
+                stringBuilder.append("{"+"\"temp\": \"" + temp2 + "\", \"time\": \"" + time2 + "\", \"icon\": \"" + icon2+"\"}");
+            else
+                stringBuilder.append("{"+"\"temp\": \"" + temp2 + "\", \"time\": \"" + time2 + "\", \"icon\": \"" + icon2+"\"},");
             fragment1ViewModel2.addDay(day);
 
         }
+        stringBuilder.append("]");
 
-        MyDatabase.getInstance().updateCity(location, temp, pressure, lat, lon, time,description, wind, windDeg, humidity, icon);
+
+        MyDatabase.getInstance().updateCity(location, temp, pressure, lat, lon, time,description, wind, windDeg, humidity, icon, stringBuilder.toString());
 
         if(mode==FIND)
         {
-            fragment1ViewModel.setAll(location, temp, pressure, lon, lat, description, time, wind, windDeg, humidity, icon);
+            fragment1ViewModel.setAll(location, temp, pressure, lon, lat, description, time, wind, windDeg, humidity, icon,stringBuilder.toString());
             fragment1ViewModel2.setCities();
         }
 

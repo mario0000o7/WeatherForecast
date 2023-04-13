@@ -58,9 +58,10 @@ public class Fragment1 extends Fragment implements MyViewModelObserver {
         mViewModel.windDeg =  sharedPreferences.getString("windDeg", "0");
         mViewModel.humidity = sharedPreferences.getString("humidity", "brak");
         mViewModel.icon = sharedPreferences.getString("icon", "brak");
+        mViewModel.jsonList = sharedPreferences.getString("jsonList", "brak");
         for (int i=0;i<5;i++){
             HashMap<String, String> day = new HashMap<>();
-            day.put("day", sharedPreferences.getString("day"+i, "brak"));
+            day.put("time", sharedPreferences.getString("time"+i, "brak"));
             day.put("temp", sharedPreferences.getString("temp"+i, "brak"));
             day.put("icon", sharedPreferences.getString("icon"+i, "brak"));
             mViewModel.addDay(day);
@@ -195,7 +196,7 @@ public class Fragment1 extends Fragment implements MyViewModelObserver {
     }
 
     @Override
-    public void onAllChanged(String city, Double temp, Double pressure, Double lon, Double lat, String description, String actualTime, String windSpeed, String windDeg, String humidity,String icon) {
+    public void onAllChanged(String city, Double temp, Double pressure, Double lon, Double lat, String description, String actualTime, String windSpeed, String windDeg, String humidity,String icon,String jsonList) {
         SharedPreferences sharedPreferences = requireActivity().getSharedPreferences("currentCity", MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
 
@@ -211,10 +212,18 @@ public class Fragment1 extends Fragment implements MyViewModelObserver {
         editor.putString("windDeg",windDeg);
         editor.putString("humidity", humidity);
         editor.putString("icon",icon);
-        ArrayList<HashMap<String,String>> days=mViewModel.getDays();
+        editor.putString("jsonList",jsonList);
+        ArrayList<HashMap<String,String>> days=null;
+        try {
+            days=mViewModel.getDays();
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+
         if (days.size()>0)
             for (int i = 0; i < 5; i++) {
-                editor.putString("day" + i, days.get(i).get("day"));
+                editor.putString("time" + i, days.get(i).get("time"));
                 editor.putString("temp" + i, days.get(i).get("temp"));
                 editor.putString("icon" + i, days.get(i).get("icon"));
             }
@@ -234,6 +243,7 @@ public class Fragment1 extends Fragment implements MyViewModelObserver {
         mViewModel.windDeg=windDeg;
         mViewModel.humidity=humidity;
         mViewModel.icon=icon;
+        mViewModel.jsonList=jsonList;
         refresh();
     }
 
@@ -241,12 +251,19 @@ public class Fragment1 extends Fragment implements MyViewModelObserver {
     public void onDayChanged() {
         SharedPreferences sharedPreferences = requireActivity().getSharedPreferences("currentCity", MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
-        ArrayList<HashMap<String,String>> days=mViewModel.getDays();
-        for (int i = 0; i < 5; i++) {
-            editor.putString("day" + i, days.get(i).get("day"));
-            editor.putString("temp" + i, days.get(i).get("temp"));
-            editor.putString("icon" + i, days.get(i).get("icon"));
+        ArrayList<HashMap<String,String>> days=null;
+        try {
+            days=mViewModel.getDays();
         }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+        if (days!=null)
+            for (int i = 0; i < 5; i++) {
+                editor.putString("time" + i, days.get(i).get("time"));
+                editor.putString("temp" + i, days.get(i).get("temp"));
+                editor.putString("icon" + i, days.get(i).get("icon"));
+            }
 
 
         editor.apply();

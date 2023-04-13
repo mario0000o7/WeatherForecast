@@ -85,10 +85,15 @@ public class DayList extends Fragment1 {
         list.add(day3);
         list.add(day4);
         list.add(day5);
-        ArrayList<HashMap<String,String>> data=mViewModel.getDays();
-        System.out.println("data.size()"+data.size());
-        System.out.println("list.size()"+list.size());
-        if (data.size()>0&&list.size()>0)
+        ArrayList<HashMap<String,String>> data=null;
+        try {
+            data = mViewModel.getDays();
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+
+        if (data!=null&&data.size() > 0 && list.size() > 0)
             for(int i=0;i<list.size();i++){
                 TextView day = list.get(i).findViewById(R.id.day);
                 TextView temp = list.get(i).findViewById(R.id.temp);
