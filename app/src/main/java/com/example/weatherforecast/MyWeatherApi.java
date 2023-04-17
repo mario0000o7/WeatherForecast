@@ -11,9 +11,19 @@ import java.util.Scanner;
 public class MyWeatherApi {
     private final String apiToken;
     private final String lang = "pl";
-    private final String units = "metric";
+    private String units = "metric";
+    public static final int FARENHEIT=1;
+    public static final int CELSIUS=0;
+    public static int currentTempMode = CELSIUS;
+
     MyWeatherApi(String apiToken) {
         this.apiToken = apiToken;
+        if (currentTempMode == FARENHEIT) {
+            units = "imperial";
+        }
+        else {
+            units = "metric";
+        }
 
     }
     public JSONObject getCordinates(String city) throws IOException, JSONException {

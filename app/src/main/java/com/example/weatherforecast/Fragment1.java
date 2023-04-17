@@ -9,6 +9,7 @@ import androidx.lifecycle.ViewModelProvider;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.media.Image;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -50,8 +51,8 @@ public class Fragment1 extends Fragment implements MyViewModelObserver {
         mViewModel.city = sharedPreferences.getString("city", "brak");
         mViewModel.temp = (double) sharedPreferences.getFloat("temp", 0);
         mViewModel.pressure = (double) sharedPreferences.getFloat("pressure", 0);
-        mViewModel.lon = (double) sharedPreferences.getFloat("lon", 0);
-        mViewModel.lat = (double) sharedPreferences.getFloat("lat", 0);
+        mViewModel.lon = ((double) sharedPreferences.getFloat("lon", 0));
+        mViewModel.lat = ((double)sharedPreferences.getFloat("lat", 0));
         mViewModel.description = sharedPreferences.getString("description", "brak");
         mViewModel.actualTime = sharedPreferences.getString("actualTime", "brak");
         mViewModel.windSpeed =  sharedPreferences.getString("windSpeed", "brak");
@@ -59,6 +60,9 @@ public class Fragment1 extends Fragment implements MyViewModelObserver {
         mViewModel.humidity = sharedPreferences.getString("humidity", "brak");
         mViewModel.icon = sharedPreferences.getString("icon", "brak");
         mViewModel.jsonList = sharedPreferences.getString("jsonList", "brak");
+        mViewModel.currentTempMode = sharedPreferences.getInt("currentTempMode", MyWeatherApi.CELSIUS);
+        MyWeatherApi.currentTempMode = mViewModel.currentTempMode;
+
         for (int i=0;i<5;i++){
             HashMap<String, String> day = new HashMap<>();
             day.put("time", sharedPreferences.getString("time"+i, "brak"));
@@ -79,7 +83,11 @@ public class Fragment1 extends Fragment implements MyViewModelObserver {
             else
                 fav.setImageResource(R.drawable.iconmonstr_favorite_8);
 
-
+        ImageView tempMode = getView().findViewById(R.id.celIcon);
+        if(MyWeatherApi.currentTempMode==MyWeatherApi.CELSIUS)
+            tempMode.setImageResource(R.drawable.cel);
+        else
+            tempMode.setImageResource(R.drawable.faren);
         TextView cityName = getView().findViewById(R.id.cityname);
         cityName.setText(mViewModel.city);
         TextView tempv = getView().findViewById(R.id.temperature);
@@ -87,9 +95,9 @@ public class Fragment1 extends Fragment implements MyViewModelObserver {
         TextView pressurev = getView().findViewById(R.id.preassure);
         pressurev.setText(mViewModel.pressure.toString());
         TextView lonv = getView().findViewById(R.id.longitudeicon);
-        lonv.setText(mViewModel.lon.toString());
+        lonv.setText(String.valueOf(mViewModel.lon.floatValue()));
         TextView latv = getView().findViewById(R.id.latitudeicon);
-        latv.setText(mViewModel.lat.toString());
+        latv.setText(String.valueOf(mViewModel.lat.floatValue()));
         TextView descriptionv = getView().findViewById(R.id.description);
         descriptionv.setText(mViewModel.description);
         TextView actualTimev = getView().findViewById(R.id.time);
@@ -213,6 +221,7 @@ public class Fragment1 extends Fragment implements MyViewModelObserver {
         editor.putString("humidity", humidity);
         editor.putString("icon",icon);
         editor.putString("jsonList",jsonList);
+        editor.putInt("currentTempMode", MyWeatherApi.currentTempMode);
         ArrayList<HashMap<String,String>> days=null;
         try {
             days=mViewModel.getDays();
@@ -244,6 +253,7 @@ public class Fragment1 extends Fragment implements MyViewModelObserver {
         mViewModel.humidity=humidity;
         mViewModel.icon=icon;
         mViewModel.jsonList=jsonList;
+        mViewModel.currentTempMode=MyWeatherApi.currentTempMode;
         refresh();
     }
 

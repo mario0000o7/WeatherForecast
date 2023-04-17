@@ -79,8 +79,8 @@ public class MyDatabase {
         values.put(FeedReaderContract.FeedEntry.COLUMN_NAME_CITY, city);
         values.put(FeedReaderContract.FeedEntry.COLUMN_NAME_TEMP, temp);
         values.put(FeedReaderContract.FeedEntry.COLUMN_NAME_PRESSURE, pressure);
-        values.put(FeedReaderContract.FeedEntry.COLUMN_NAME_LAT, lat);
-        values.put(FeedReaderContract.FeedEntry.COLUMN_NAME_LON, lon);
+        values.put(FeedReaderContract.FeedEntry.COLUMN_NAME_LAT, lat.floatValue());
+        values.put(FeedReaderContract.FeedEntry.COLUMN_NAME_LON, lon.floatValue());
         values.put(FeedReaderContract.FeedEntry.COLUMN_NAME_ACTUALTIME, actualTime);
         values.put(FeedReaderContract.FeedEntry.COLUMN_NAME_DESCRIPTION, description);
         values.put(FeedReaderContract.FeedEntry.COLUMN_NAME_WINDSPEED, windSpeed);

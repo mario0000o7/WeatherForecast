@@ -24,6 +24,7 @@ public class Fragment1ViewModel extends ViewModel {
     String humidity;
     String icon;
     String jsonList;
+    int currentTempMode = MyWeatherApi.CELSIUS;
     public void addDay(HashMap<String,String> day){
         days.add(day);
     }
