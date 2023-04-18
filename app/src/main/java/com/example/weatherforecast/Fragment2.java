@@ -68,7 +68,7 @@ public class Fragment2 extends Fragment1{
 
 
         TextView windSpeed = getView().findViewById(R.id.speedWindValue);
-        windSpeed.setText(mViewModel.windSpeed+"m/s");
+        windSpeed.setText(mViewModel.windSpeed+" m/s");
         ImageView windDeg = getView().findViewById(R.id.windDirImg);
         windDeg.setRotation(Float.parseFloat(mViewModel.windDeg));
         TextView humidity = getView().findViewById(R.id.humidityValue);

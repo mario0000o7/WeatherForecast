@@ -19,7 +19,7 @@
             android:layout_weight="3"
             android:autoSizeTextType="uniform"
             android:maxLines="1"
-            android:text="Hello"
+            android:text="@string/nazwa_miasta"
             android:textSize="48sp" />
 
         <ImageView

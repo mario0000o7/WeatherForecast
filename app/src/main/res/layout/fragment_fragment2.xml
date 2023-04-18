@@ -18,7 +18,7 @@
             android:layout_height="match_parent"
             android:layout_weight="5"
             android:autoSizeTextType="uniform"
-            android:text="Kierunek Wiatru"
+            android:text="@string/kierunek_wiatru"
             android:textAlignment="center" />
 
         <ImageView
@@ -35,7 +35,7 @@
             android:layout_height="match_parent"
             android:layout_weight="5"
             android:autoSizeTextType="uniform"
-            android:text="Prędkość Wiatru"
+            android:text="@string/pr_dko_wiatru"
             android:textAlignment="center" />
 
         <TextView
@@ -44,7 +44,7 @@
             android:layout_height="match_parent"
             android:layout_weight="5"
             android:autoSizeTextType="uniform"
-            android:text="10 km/h"
+            android:text="@string/_0_m_s"
             android:textAlignment="center" />
 
         <TextView
@@ -53,7 +53,7 @@
             android:layout_height="match_parent"
             android:layout_weight="5"
             android:autoSizeTextType="uniform"
-            android:text="Wilgotność"
+            android:text="@string/wilgotno"
             android:textAlignment="center" />
 
         <TextView
@@ -62,7 +62,7 @@
             android:layout_height="match_parent"
             android:layout_weight="5"
             android:autoSizeTextType="uniform"
-            android:text="50%"
+            android:text="@string/_50"
             android:textAlignment="center" />
     </LinearLayout>
 

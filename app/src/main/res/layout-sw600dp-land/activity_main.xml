@@ -23,7 +23,7 @@
             android:layout_height="match_parent"
             android:layout_weight="10"
             android:autoSizeTextType="uniform"
-            android:text="Pogoda"
+            android:text="@string/pogoda"
             android:textAlignment="center"
             android:textColor="@color/white" />
 
@@ -42,7 +42,7 @@
                 android:autoSizeTextType="none"
 
 
-                android:hint="Miejscowość"
+                android:hint="@string/miejscowo"
                 android:imeActionLabel="Done"
                 android:imeOptions="actionDone"
                 android:inputType="text"

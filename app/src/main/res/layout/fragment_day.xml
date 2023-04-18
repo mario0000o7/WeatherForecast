@@ -20,7 +20,7 @@
             android:autoSizeTextType="uniform"
             android:gravity="center"
             android:maxLines="1"
-            android:text="TextView" />
+            android:text="@string/dzie" />
 
         <ImageView
             android:id="@+id/dayicon"
@@ -38,6 +38,6 @@
             android:autoSizeTextType="uniform"
             android:gravity="center"
             android:maxLines="1"
-            android:text="TextView" />
+            android:text="@string/temperatura" />
     </LinearLayout>
 </FrameLayout>

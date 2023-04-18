@@ -164,15 +164,7 @@ public class MainActivity extends AppCompatActivity{
             public void onClick(View v) {
                 SharedPreferences sharedPreferences = getSharedPreferences("currentCity", MODE_PRIVATE);
                 SharedPreferences.Editor editor = sharedPreferences.edit();
-                if (sharedPreferences.getInt("currentModeTemp", 0)==0) {
-                    editor.putInt("currentModeTemp", MyWeatherApi.FARENHEIT);
-                    MyWeatherApi.currentTempMode = MyWeatherApi.FARENHEIT;
-                    change.setImageResource(R.drawable.faren);
-                } else {
-                    editor.putInt("currentModeTemp", MyWeatherApi.CELSIUS);
-                    MyWeatherApi.currentTempMode = MyWeatherApi.CELSIUS;
-                    change.setImageResource(R.drawable.cel);
-                }
+
                 editor.apply();
                 Log.println(Log.INFO, "refresh", "refresh");
                 Map<String, Map<String,String>>cities = MyDatabase.getInstance().getCities();
@@ -184,6 +176,15 @@ public class MainActivity extends AppCompatActivity{
                     }
                     WeatherApi weatherApi = new WeatherApi(sharedPreferences.getString("city", "brak"), myAdapter, WeatherApi.FIND);
                     weatherApi.execute();
+                    if (sharedPreferences.getInt("currentModeTemp", 0)==0) {
+                        editor.putInt("currentModeTemp", MyWeatherApi.FARENHEIT);
+                        MyWeatherApi.currentTempMode = MyWeatherApi.FARENHEIT;
+                        change.setImageResource(R.drawable.faren);
+                    } else {
+                        editor.putInt("currentModeTemp", MyWeatherApi.CELSIUS);
+                        MyWeatherApi.currentTempMode = MyWeatherApi.CELSIUS;
+                        change.setImageResource(R.drawable.cel);
+                    }
                 }
                 catch (RuntimeException e){
                     Toast.makeText(MainActivity.this, "Brak połączenia z internetem", Toast.LENGTH_SHORT).show();

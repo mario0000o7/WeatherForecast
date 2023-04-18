@@ -230,7 +230,7 @@ public class Fragment1 extends Fragment implements MyViewModelObserver {
             e.printStackTrace();
         }
 
-        if (days.size()>0)
+        if (days!=null&&days.size()>0)
             for (int i = 0; i < 5; i++) {
                 editor.putString("time" + i, days.get(i).get("time"));
                 editor.putString("temp" + i, days.get(i).get("temp"));

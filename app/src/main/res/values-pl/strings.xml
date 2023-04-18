@@ -1,22 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">WeatherForecast</string>
-    <string name="day1">Poniedziałek</string>
-    <string name="day2">Wtorek</string>
-    <string name="day3">Środa</string>
-    <string name="day4">Czwartek</string>
-    <string name="day5">Piątek</string>
-    <string name="sunrise">Wschód słońca</string>
-    <string name="sunset">Zachód słońca</string>
-    <string name="wind">Wiatr</string>
-    <string name="humidity">Wilgotność</string>
+    <string name="pogoda">Pogoda</string>
+    <string name="miejscowo">Miejscowość</string>
+    <string name="textview">TextView</string>
+    <string name="temperatura">Temperatura</string>
+    <string name="dzie">Dzień</string>
+    <string name="city">city</string>
+    <string name="lat">lat</string>
+    <string name="longi">long</string>
+    <string name="time">time</string>
+    <string name="description">description</string>
+    <string name="kierunek_wiatru">Kierunek Wiatru</string>
+    <string name="pr_dko_wiatru">Prędkość Wiatru</string>
+    <string name="wilgotno">Wilgotność</string>
+    <string name="_50">50%</string>
     <string name="pressure">Ciśnienie</string>
-    <string name="clouds">Zachmurzenie</string>
-    <string name="visibility">Widoczność</string>
-    <string name="feels_like">Odczuwalna</string>
-    <string name="temp">Temperatura</string>
-    <string name="temp_min">Min</string>
-    <string name="temp_max">Max</string>
+    <string name="_0_m_s">0 m/s</string>
+    <string name="nazwa_miasta">Nazwa Miasta</string>
 
 
 </resources>

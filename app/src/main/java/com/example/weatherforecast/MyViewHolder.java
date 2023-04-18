@@ -7,6 +7,7 @@ import android.view.TextureView;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -33,7 +34,9 @@ public class MyViewHolder extends RecyclerView.ViewHolder{
         textView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                ProgressBar progressBar = mainActivity.findViewById(R.id.progressBar);
                 Map<String,String> cityData = MyDatabase.getInstance().getCity(mTextView.getText().toString());
+                progressBar.setVisibility(View.VISIBLE);
                 if(cityData!=null) {
                     mViewModel.setAll(cityData.get("city"), Double.valueOf(cityData.get("temp")), Double.valueOf(cityData.get("pressure")), Double.valueOf(cityData.get("lon")), Double.valueOf(cityData.get("lat")), cityData.get("description"), cityData.get("actualTime"),cityData.get("windSpeed"),cityData.get("windDeg"),cityData.get("humidity"),cityData.get("icon"),cityData.get("jsonList"));
                 }

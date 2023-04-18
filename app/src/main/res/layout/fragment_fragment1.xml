@@ -18,7 +18,7 @@
             android:layout_height="match_parent"
             android:layout_weight="3"
             android:autoSizeTextType="uniform"
-            android:text="city"
+            android:text="@string/city"
             android:textAlignment="center"
             android:textColor="@color/white" />
 
@@ -43,7 +43,7 @@
                 android:layout_weight="3"
                 android:autoSizeTextType="uniform"
                 android:maxLines="1"
-                android:text="TextView"
+                android:text="@string/lat"
                 android:textAlignment="center"
                 android:textColor="@color/white" />
 
@@ -54,7 +54,7 @@
                 android:layout_weight="3"
                 android:autoSizeTextType="uniform"
                 android:maxLines="1"
-                android:text="TextView"
+                android:text="@string/longi"
                 android:textAlignment="center"
                 android:textColor="@color/white" />
         </LinearLayout>
@@ -81,7 +81,7 @@
                 android:autoSizeTextType="uniform"
                 android:gravity="center"
                 android:maxLines="1"
-                android:text="TextView"
+                android:text="@string/temperatura"
                 android:textAlignment="center"
                 android:textColor="@color/white" />
 
@@ -101,7 +101,7 @@
                 android:autoSizeTextType="uniform"
                 android:gravity="center"
                 android:maxLines="1"
-                android:text="TextView"
+                android:text="@string/time"
                 android:textAlignment="center"
                 android:textColor="@color/white" />
 
@@ -121,7 +121,7 @@
                 android:autoSizeTextType="uniform"
                 android:gravity="center"
                 android:maxLines="1"
-                android:text="TextView"
+                android:text="@string/pressure"
                 android:textAlignment="center"
                 android:textColor="@color/white" />
         </LinearLayout>
@@ -132,7 +132,7 @@
             android:layout_height="match_parent"
             android:layout_weight="3"
             android:autoSizeTextType="uniform"
-            android:text="TextView"
+            android:text="@string/description"
             android:textAlignment="center"
             android:textColor="@color/white" />
 

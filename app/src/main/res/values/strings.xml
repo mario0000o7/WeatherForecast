@@ -1,3 +1,20 @@
 <resources>
     <string name="app_name">WeatherForecast</string>
+    <string name="pogoda">Pogoda</string>
+    <string name="miejscowo">Miejscowość</string>
+    <string name="textview">TextView</string>
+    <string name="temperatura">Temperatura</string>
+    <string name="dzie">Dzień</string>
+    <string name="city">city</string>
+    <string name="lat">lat</string>
+    <string name="longi">long</string>
+    <string name="time">time</string>
+    <string name="description">description</string>
+    <string name="pressure">Ciśnienie</string>
+    <string name="kierunek_wiatru">Kierunek Wiatru</string>
+    <string name="pr_dko_wiatru">Prędkość Wiatru</string>
+    <string name="_0_m_s">0 m/s</string>
+    <string name="wilgotno">Wilgotność</string>
+    <string name="_50">50%</string>
+    <string name="nazwa_miasta">Nazwa Miasta</string>
 </resources>
