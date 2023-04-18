@@ -46,7 +46,6 @@ public class WeatherApi extends AsyncTask<Void, Void, ArrayList<Object>> {
 
 
                 this.myAdapter = myAdapter;
-                System.out.println(myAdapter.fragments);
                 this.city = city;
                 this.mode=mode;
             }

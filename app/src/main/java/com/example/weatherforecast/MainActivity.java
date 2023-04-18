@@ -7,7 +7,10 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentContainerView;
+import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -17,6 +20,7 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.ContentValues;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.database.sqlite.SQLiteDatabase;
 import android.media.Image;
 import android.os.Bundle;
@@ -34,11 +38,14 @@ import android.widget.Toast;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 
 public class MainActivity extends AppCompatActivity{
     MyAdapter myAdapter;
     ListAdapter listAdapter;
+    ViewPager2 viewPager;
+    boolean isTablet = false;
 
 
     @Override
@@ -47,23 +54,58 @@ public class MainActivity extends AppCompatActivity{
 
 
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        SharedPreferences sharedPreferences = getSharedPreferences("currentCity", MODE_PRIVATE);
         new MyDatabase(this);
 
-
-
-
-
-
-
-
-        ViewPager2 viewPager = findViewById(R.id.widok1);
+        isTablet=(getResources().getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK) >= Configuration.SCREENLAYOUT_SIZE_LARGE;
+        setContentView(R.layout.activity_main);
+        SharedPreferences sharedPreferences = getSharedPreferences("currentCity", MODE_PRIVATE);
         EditText editText = findViewById(R.id.search);
         myAdapter = new MyAdapter(this);
+
         myAdapter.addFragment(new Fragment2());
         myAdapter.addFragment(new Fragment1());
         myAdapter.addFragment(new DayList());
+
+
+        RecyclerView recyclerView = findViewById(R.id.favourites);
+        listAdapter = new ListAdapter(this);
+        recyclerView.setAdapter(listAdapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        ImageView listfav = findViewById(R.id.listfav);
+        if (isTablet)
+        {
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+
+            // Add the first fragment to the first container
+            fragmentTransaction.add(R.id.fragmentContainerView, myAdapter.getFragment(1));
+
+            // Add the second fragment to the second container
+            fragmentTransaction.add(R.id.fragmentContainerView2, myAdapter.getFragment(0));
+
+            // Add the third fragment to the third container
+            fragmentTransaction.add(R.id.fragmentContainerView3, myAdapter.getFragment(2));
+
+            // Commit the transaction
+            fragmentTransaction.commit();
+
+        }
+        else {
+            viewPager = findViewById(R.id.widok1);
+            viewPager.setAdapter(myAdapter);
+            viewPager.setCurrentItem(1, false);
+        }
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -94,15 +136,10 @@ public class MainActivity extends AppCompatActivity{
 
 
 
-        viewPager.setAdapter(myAdapter);
-        viewPager.setCurrentItem(1, false);
 
 
-        RecyclerView recyclerView = findViewById(R.id.favourites);
-        listAdapter = new ListAdapter(this);
-        recyclerView.setAdapter(listAdapter);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        ImageView listfav = findViewById(R.id.listfav);
+
+
         listfav.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

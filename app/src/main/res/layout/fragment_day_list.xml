@@ -3,7 +3,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/gradient_background"
     tools:context=".DayList">
 
     <LinearLayout
@@ -16,34 +15,39 @@
             android:name="com.example.weatherforecast.Day"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1" />
+            android:layout_weight="1"
+            tools:layout="@layout/fragment_day" />
 
         <androidx.fragment.app.FragmentContainerView
             android:id="@+id/day2"
             android:name="com.example.weatherforecast.Day"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1" />
+            android:layout_weight="1"
+            tools:layout="@layout/fragment_day" />
 
         <androidx.fragment.app.FragmentContainerView
             android:id="@+id/day3"
             android:name="com.example.weatherforecast.Day"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1" />
+            android:layout_weight="1"
+            tools:layout="@layout/fragment_day" />
 
         <androidx.fragment.app.FragmentContainerView
             android:id="@+id/day4"
             android:name="com.example.weatherforecast.Day"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1" />
+            android:layout_weight="1"
+            tools:layout="@layout/fragment_day" />
 
         <androidx.fragment.app.FragmentContainerView
             android:id="@+id/day5"
             android:name="com.example.weatherforecast.Day"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1" />
+            android:layout_weight="1"
+            tools:layout="@layout/fragment_day" />
     </LinearLayout>
 </FrameLayout>
