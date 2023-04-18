@@ -60,7 +60,6 @@ public class MainActivity extends AppCompatActivity{
         recyclerView.setAdapter(listAdapter);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         ImageView listfav = findViewById(R.id.listfav);
-        recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(linearLayoutManager);
 
 
