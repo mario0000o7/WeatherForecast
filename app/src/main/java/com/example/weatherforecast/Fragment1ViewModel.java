@@ -1,5 +1,7 @@
 package com.example.weatherforecast;
 
+import android.widget.ProgressBar;
+
 import androidx.lifecycle.ViewModel;
 
 import org.json.JSONArray;
@@ -98,7 +100,6 @@ public class Fragment1ViewModel extends ViewModel {
         this.icon=icon;
         this.jsonList=jsonList;
 
-        System.out.println("setAll: "+windDeg);
         notifyAllChanged();
     }
 

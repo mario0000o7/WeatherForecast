@@ -1,44 +1,31 @@
 package com.example.weatherforecast;
 
-import static java.security.AccessController.getContext;
-
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentContainerView;
 import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.ViewPager2;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.content.ContentValues;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
-import android.database.sqlite.SQLiteDatabase;
-import android.media.Image;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.PersistableBundle;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 
 
 public class MainActivity extends AppCompatActivity{
@@ -50,7 +37,6 @@ public class MainActivity extends AppCompatActivity{
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        System.out.println("onCreateMain");
 
 
         super.onCreate(savedInstanceState);
@@ -65,13 +51,19 @@ public class MainActivity extends AppCompatActivity{
         myAdapter.addFragment(new Fragment2());
         myAdapter.addFragment(new Fragment1());
         myAdapter.addFragment(new DayList());
+        ConstraintLayout constraintLayout = findViewById(R.id.layout);
+
 
 
         RecyclerView recyclerView = findViewById(R.id.favourites);
         listAdapter = new ListAdapter(this);
         recyclerView.setAdapter(listAdapter);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         ImageView listfav = findViewById(R.id.listfav);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(linearLayoutManager);
+
+
         if (isTablet)
         {
             FragmentManager fragmentManager = getSupportFragmentManager();
@@ -106,6 +98,7 @@ public class MainActivity extends AppCompatActivity{
 
 
 
+        ProgressBar progressBar = findViewById(R.id.progressBar);
 
 
 
@@ -115,12 +108,14 @@ public class MainActivity extends AppCompatActivity{
                 if (actionId == EditorInfo.IME_ACTION_DONE) {
                    InputMethodManager im = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
                     im.hideSoftInputFromWindow(editText.getWindowToken(), 0);
+                    progressBar.setVisibility(View.VISIBLE);
                     try {
                         WeatherApi weatherApi = new WeatherApi(editText.getText().toString(),myAdapter,WeatherApi.FIND);
                         weatherApi.execute();
                     }
                     catch (Exception e){
                         Toast.makeText(MainActivity.this, "Brak połączenia z internetem", Toast.LENGTH_SHORT).show();
+                        progressBar.setVisibility(View.GONE);
                     }
 
 
@@ -140,6 +135,7 @@ public class MainActivity extends AppCompatActivity{
 
 
 
+
         listfav.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -148,6 +144,12 @@ public class MainActivity extends AppCompatActivity{
                 } else {
                     recyclerView.setVisibility(View.VISIBLE);
                 }
+            }
+        });
+        constraintLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                recyclerView.setVisibility(View.GONE);
             }
         });
 
@@ -175,6 +177,7 @@ public class MainActivity extends AppCompatActivity{
                 editor.apply();
                 Log.println(Log.INFO, "refresh", "refresh");
                 Map<String, Map<String,String>>cities = MyDatabase.getInstance().getCities();
+                progressBar.setVisibility(View.VISIBLE);
                 try {
                     for (String city : cities.keySet()) {
                         WeatherApi weatherApi = new WeatherApi(city, myAdapter, WeatherApi.REFRESH);
@@ -185,6 +188,7 @@ public class MainActivity extends AppCompatActivity{
                 }
                 catch (RuntimeException e){
                     Toast.makeText(MainActivity.this, "Brak połączenia z internetem", Toast.LENGTH_SHORT).show();
+                    progressBar.setVisibility(View.GONE);
                 }
             }
         });
@@ -195,6 +199,7 @@ public class MainActivity extends AppCompatActivity{
             public void onClick(View v) {
                 Log.println(Log.INFO, "refresh", "refresh");
                 Map<String, Map<String,String>>cities = MyDatabase.getInstance().getCities();
+                progressBar.setVisibility(View.VISIBLE);
                 try {
                     for (String city : cities.keySet()) {
                         WeatherApi weatherApi = new WeatherApi(city, myAdapter, WeatherApi.REFRESH);
@@ -205,6 +210,7 @@ public class MainActivity extends AppCompatActivity{
                 }
                 catch (RuntimeException e){
                     Toast.makeText(MainActivity.this, "Brak połączenia z internetem", Toast.LENGTH_SHORT).show();
+                    progressBar.setVisibility(View.GONE);
                 }
 
             }
@@ -240,7 +246,6 @@ public class MainActivity extends AppCompatActivity{
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        System.out.println("onDestroyMain");
         MyDatabase.getInstance().closeDatabase();
         listAdapter.removeObserver();
     }

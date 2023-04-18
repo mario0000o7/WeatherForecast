@@ -6,6 +6,8 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
+import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
@@ -61,6 +63,7 @@ public class WeatherApi extends AsyncTask<Void, Void, ArrayList<Object>> {
 
     @Override
     public void onPostExecute(ArrayList<Object> weatherList) {
+        ProgressBar progressBar = myAdapter.mainActivity.findViewById(R.id.progressBar);
         if (weatherList == null) {
             Toast.makeText(myAdapter.mainActivity.getApplicationContext(), "Brak połączenia z internetem", Toast.LENGTH_SHORT).show();
             return;
@@ -118,7 +121,6 @@ public class WeatherApi extends AsyncTask<Void, Void, ArrayList<Object>> {
         for (int i = 0; i < list.length(); i++) {
             Double temp2 = Math.floor(Objects.requireNonNull(list.optJSONObject(i).optJSONObject("temp")).optDouble("eve"));
             String time2 =  StringUtils.capitalize(new SimpleDateFormat("EEE",new Locale("pl")).format(Date.from(Instant.ofEpochSecond(list.optJSONObject(i).optInt("dt")))));
-            System.out.println(time2);
             String icon2 = Objects.requireNonNull(list.optJSONObject(i).optJSONArray("weather")).optJSONObject(0).optString("icon");
 
 
@@ -143,6 +145,7 @@ public class WeatherApi extends AsyncTask<Void, Void, ArrayList<Object>> {
             fragment1ViewModel.setAll(location, temp, pressure, lon, lat, description, time, wind, windDeg, humidity, icon,stringBuilder.toString());
             fragment1ViewModel2.setCities();
         }
+//        progressBar.setVisibility(View.INVISIBLE);
 
 
 

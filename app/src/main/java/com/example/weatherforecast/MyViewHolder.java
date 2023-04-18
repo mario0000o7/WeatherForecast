@@ -5,6 +5,7 @@ import static android.content.Context.MODE_PRIVATE;
 import android.content.SharedPreferences;
 import android.view.TextureView;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -28,11 +29,11 @@ public class MyViewHolder extends RecyclerView.ViewHolder{
         TextView textView = itemView.findViewById(R.id.hello);
         SharedPreferences sharedPreferences = itemView.getRootView().getContext().getSharedPreferences("currentCity", MODE_PRIVATE);
         ImageView removeButton = itemView.findViewById(R.id.removeCity);
+
         textView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Map<String,String> cityData = MyDatabase.getInstance().getCity(mTextView.getText().toString());
-                System.out.println(cityData);
                 if(cityData!=null) {
                     mViewModel.setAll(cityData.get("city"), Double.valueOf(cityData.get("temp")), Double.valueOf(cityData.get("pressure")), Double.valueOf(cityData.get("lon")), Double.valueOf(cityData.get("lat")), cityData.get("description"), cityData.get("actualTime"),cityData.get("windSpeed"),cityData.get("windDeg"),cityData.get("humidity"),cityData.get("icon"),cityData.get("jsonList"));
                 }

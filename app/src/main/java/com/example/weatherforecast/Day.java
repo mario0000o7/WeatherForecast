@@ -16,7 +16,6 @@ public class Day extends Fragment {
 
 
 
-    private DayViewModel mViewModel;
 
     public static Day newInstance() {
         return new Day();
@@ -31,8 +30,6 @@ public class Day extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        mViewModel = new ViewModelProvider(this).get(DayViewModel.class);
-        // TODO: Use the ViewModel
     }
 
 }

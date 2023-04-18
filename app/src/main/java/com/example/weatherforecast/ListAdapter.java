@@ -29,7 +29,6 @@ public class ListAdapter extends RecyclerView.Adapter<MyViewHolder> implements U
         this.mainActivity = mainActivity;
         ulubioneViewModel = new ViewModelProvider(mainActivity).get(UlubioneViewModel.class);
         ulubioneViewModel.addObserwer(this);
-        System.out.println(ulubioneViewModel.getObservers());
 
         for (Map.Entry<String,Map<String,String>> entry : cities.entrySet()) {
             places.add(entry.getKey());
@@ -65,14 +64,12 @@ public class ListAdapter extends RecyclerView.Adapter<MyViewHolder> implements U
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view=View.inflate(parent.getContext(),R.layout.fragment_ulubione,null);
-        System.out.println("onCreateViewHolder");
         return new MyViewHolder(view,mainActivity);
 
     }
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
-        System.out.println("onBindViewHolder");
         for (int i=0;i<places.size();i++){
             holder.getmTextView().setText(places.get(position));
         }

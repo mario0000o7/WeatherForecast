@@ -2,8 +2,9 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/ulubioneF"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     tools:context=".Ulubione">
 
     <LinearLayout
@@ -14,13 +15,12 @@
         <TextView
             android:id="@+id/hello"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_weight="3"
             android:autoSizeTextType="uniform"
             android:maxLines="1"
-            android:minWidth="130sp"
-            android:minHeight="40sp"
-            android:text="Hello" />
+            android:text="Hello"
+            android:textSize="48sp" />
 
         <ImageView
             android:id="@+id/removeCity"

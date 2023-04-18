@@ -40,7 +40,6 @@ public class MyDatabase {
      void addCity(){
         try {
             if(isCityInDatabase(sharedPreferences.getString("city", "brak"))) {
-                System.out.println("Juz jest w bazie");
                 return;
             }
             db = dbHelper.getWritableDatabase();
@@ -61,7 +60,6 @@ public class MyDatabase {
             values.put(FeedReaderContract.FeedEntry.COLUMN_NAME_JSONLIST, sharedPreferences.getString("jsonList", "brak"));
             db.insert(FeedReaderContract.FeedEntry.TABLE_NAME, null, values);
         }catch (Exception | Error e){
-            System.out.println("Juz jest w bazie");
             db.close();
             return;
         }

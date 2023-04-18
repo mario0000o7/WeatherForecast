@@ -29,14 +29,12 @@ public class Ulubione extends Fragment{
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        System.out.println("onCreateView5");
         return inflater.inflate(R.layout.fragment_ulubione, container, false);
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        System.out.println("onActivityCreated5");
         mViewModel = new ViewModelProvider(this).get(UlubioneViewModel.class);
 
 

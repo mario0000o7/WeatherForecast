@@ -20,6 +20,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -45,7 +46,6 @@ public class Fragment1 extends Fragment implements MyViewModelObserver {
         super.onCreate(savedInstanceState);
         mViewModel = new ViewModelProvider(getActivity()).get(Fragment1ViewModel.class);
         mViewModel.addObserver(this);
-        System.out.println(this.mViewModel.getObservers());
 
         SharedPreferences sharedPreferences = getActivity().getSharedPreferences("currentCity", MODE_PRIVATE);
         mViewModel.city = sharedPreferences.getString("city", "brak");
@@ -70,7 +70,6 @@ public class Fragment1 extends Fragment implements MyViewModelObserver {
             day.put("icon", sharedPreferences.getString("icon"+i, "brak"));
             mViewModel.addDay(day);
         }
-        System.out.println("onCreateFragment1");
     }
     @SuppressLint("SetTextI18n")
     void refresh(){
@@ -104,6 +103,9 @@ public class Fragment1 extends Fragment implements MyViewModelObserver {
         actualTimev.setText(mViewModel.actualTime);
         ImageView icon = getView().findViewById(R.id.weathericon);
         icon.setImageResource(IconChanger.change(mViewModel.icon));
+        ProgressBar progressBar = getView().getRootView().findViewById(R.id.progressBar);
+        if(progressBar!=null)
+            progressBar.setVisibility(View.INVISIBLE);
     }
 
     @Override
@@ -136,7 +138,6 @@ public class Fragment1 extends Fragment implements MyViewModelObserver {
 
 
 
-        System.out.println("onActivityCreated");
 
 
     }
@@ -146,7 +147,6 @@ public class Fragment1 extends Fragment implements MyViewModelObserver {
 
         super.onResume();
         refresh();
-        System.out.println("onResume1");
 
 
 
@@ -239,7 +239,6 @@ public class Fragment1 extends Fragment implements MyViewModelObserver {
 
 
         editor.apply();
-        System.out.println("onALL: "+windDeg);
 
         mViewModel.city = city;
         mViewModel.temp = temp;

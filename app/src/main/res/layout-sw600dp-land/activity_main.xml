@@ -4,8 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/layout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    android:layout_height="match_parent">
 
     <LinearLayout
         android:id="@+id/tabletList"
@@ -22,7 +21,7 @@
             android:id="@+id/textView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="5"
+            android:layout_weight="10"
             android:autoSizeTextType="uniform"
             android:text="Pogoda"
             android:textAlignment="center"
@@ -32,7 +31,7 @@
             android:id="@+id/firstHeader"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="5"
+            android:layout_weight="10"
             android:orientation="horizontal">
 
             <EditText
@@ -89,33 +88,6 @@
                 app:tint="@color/white" />
         </LinearLayout>
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="3">
-
-            <androidx.fragment.app.FragmentContainerView
-                android:id="@+id/fragmentContainerView"
-                android:name="com.example.weatherforecast.Fragment1"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="3"
-                tools:layout="@layout/fragment_fragment1" />
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/favourites"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="#0F2027"
-                android:visibility="invisible"
-                app:layout_constraintEnd_toEndOf="@+id/fragmentContainerView"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:itemCount="5"
-                tools:listitem="@layout/fragment_ulubione">
-
-            </androidx.recyclerview.widget.RecyclerView>
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -127,16 +99,45 @@
                 android:name="com.example.weatherforecast.Fragment2"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
+                android:layout_weight="3"
                 tools:layout="@layout/fragment_fragment2" />
 
             <androidx.fragment.app.FragmentContainerView
-                android:id="@+id/fragmentContainerView3"
-                android:name="com.example.weatherforecast.DayList"
+                android:id="@+id/fragmentContainerView"
+                android:name="com.example.weatherforecast.Fragment1"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
-                tools:layout="@layout/fragment_day_list" />
+                android:layout_weight="2"
+                tools:layout="@layout/fragment_fragment1" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="3">
+
+                <androidx.fragment.app.FragmentContainerView
+                    android:id="@+id/fragmentContainerView3"
+                    android:name="com.example.weatherforecast.DayList"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="3"
+                    tools:layout="@layout/fragment_day_list"
+                    tools:layout_editor_absoluteX="310dp" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/favourites"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="#0F2027"
+                    android:visibility="invisible"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:itemCount="5"
+                    tools:listitem="@layout/fragment_ulubione">
+
+                </androidx.recyclerview.widget.RecyclerView>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
         </LinearLayout>
 
     </LinearLayout>
