@@ -66,6 +66,7 @@ public class MyWeatherApi {
                 inline.append(scanner.nextLine());
             }
             scanner.close();
+
             return new JSONObject(inline.toString());
         }
     }

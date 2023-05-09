@@ -145,7 +145,7 @@ public class WeatherApi extends AsyncTask<Void, Void, ArrayList<Object>> {
             fragment1ViewModel.setAll(location, temp, pressure, lon, lat, description, time, wind, windDeg, humidity, icon,stringBuilder.toString());
             fragment1ViewModel2.setCities();
         }
-//        progressBar.setVisibility(View.INVISIBLE);
+        progressBar.setVisibility(View.INVISIBLE);
 
 
 

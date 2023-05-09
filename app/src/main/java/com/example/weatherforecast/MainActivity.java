@@ -1,5 +1,7 @@
 package com.example.weatherforecast;
 
+
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -68,13 +70,10 @@ public class MainActivity extends AppCompatActivity{
             FragmentManager fragmentManager = getSupportFragmentManager();
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
-            // Add the first fragment to the first container
             fragmentTransaction.add(R.id.fragmentContainerView, myAdapter.getFragment(1));
 
-            // Add the second fragment to the second container
             fragmentTransaction.add(R.id.fragmentContainerView2, myAdapter.getFragment(0));
 
-            // Add the third fragment to the third container
             fragmentTransaction.add(R.id.fragmentContainerView3, myAdapter.getFragment(2));
 
             // Commit the transaction
@@ -165,18 +164,13 @@ public class MainActivity extends AppCompatActivity{
                 SharedPreferences sharedPreferences = getSharedPreferences("currentCity", MODE_PRIVATE);
                 SharedPreferences.Editor editor = sharedPreferences.edit();
 
-                editor.apply();
                 Log.println(Log.INFO, "refresh", "refresh");
                 Map<String, Map<String,String>>cities = MyDatabase.getInstance().getCities();
                 progressBar.setVisibility(View.VISIBLE);
                 try {
-                    for (String city : cities.keySet()) {
-                        WeatherApi weatherApi = new WeatherApi(city, myAdapter, WeatherApi.REFRESH);
-                        weatherApi.execute();
-                    }
-                    WeatherApi weatherApi = new WeatherApi(sharedPreferences.getString("city", "brak"), myAdapter, WeatherApi.FIND);
-                    weatherApi.execute();
-                    if (sharedPreferences.getInt("currentModeTemp", 0)==0) {
+                    System.out.println(sharedPreferences.getInt("currentModeTemp", 0));
+
+                    if (sharedPreferences.getInt("currentModeTemp", 0)==MyWeatherApi.CELSIUS) {
                         editor.putInt("currentModeTemp", MyWeatherApi.FARENHEIT);
                         MyWeatherApi.currentTempMode = MyWeatherApi.FARENHEIT;
                         change.setImageResource(R.drawable.faren);
@@ -185,6 +179,16 @@ public class MainActivity extends AppCompatActivity{
                         MyWeatherApi.currentTempMode = MyWeatherApi.CELSIUS;
                         change.setImageResource(R.drawable.cel);
                     }
+                    editor.apply();
+
+                    for (String city : cities.keySet()) {
+                        WeatherApi weatherApi = new WeatherApi(city, myAdapter, WeatherApi.REFRESH);
+                        weatherApi.execute();
+                    }
+
+                    WeatherApi weatherApi = new WeatherApi(sharedPreferences.getString("city", "brak"), myAdapter, WeatherApi.FIND);
+                    weatherApi.execute();
+
                 }
                 catch (RuntimeException e){
                     Toast.makeText(MainActivity.this, "Brak połączenia z internetem", Toast.LENGTH_SHORT).show();
